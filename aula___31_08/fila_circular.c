@@ -20,7 +20,7 @@ typedef struct Buffer
 
 Buffer fila[MAX_BUFFER];
 
-int movimenta_posicao(int posicao);
+int proxima_posicao(int posicao);
 void inserir_fila(char *nomeProcesso, int memoriaAloc, float tempoExec);
 void remover_fila();
 
@@ -46,14 +46,14 @@ int main()
   return 0;
 }
 
-int movimenta_posicao(int posicao)
+int proxima_posicao(int posicao)
 {
   return (posicao + 1) % (MAX_BUFFER + 1);
 }
 
 void inserir_fila(char *nome_processo, int memoria_aloc, float tempo_exec)
 {
-  int novoFinal = movimenta_posicao(fim);
+  int novoFinal = proxima_posicao(fim);
 
   if ((novoFinal) == inicio)
   {
@@ -78,7 +78,7 @@ void remover_fila()
   if (inicio != fim)
   {
     Buffer removido = fila[inicio];
-    inicio = movimenta_posicao(inicio);
+    inicio = proxima_posicao(inicio);
 
     // return removido->nomeProcesso[0];
     printf("\n\nRemoveu %c!", removido.nomeProcesso[0]);
