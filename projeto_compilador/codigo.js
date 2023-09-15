@@ -8,7 +8,7 @@ c = "12";
 
 result = a + b;
 
-function teste(a, b) {
+async function teste(a, b) {
   return a + b;
 }
 
