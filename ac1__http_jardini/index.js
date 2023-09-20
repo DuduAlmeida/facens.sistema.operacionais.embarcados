@@ -2,7 +2,7 @@ const http = require("http");
 const fs = require("fs");
 const path = require("path");
 
-const DEFAULT_PORT = 8080;
+const DEFAULT_PORT = 1234;
 const DEFAULT_TIMEOUT = 20000;
 
 const getMimeType = (filePath) => {
