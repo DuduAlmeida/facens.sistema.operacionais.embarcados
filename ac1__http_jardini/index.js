@@ -16,6 +16,10 @@ const getMimeType = (filePath) => {
       return "application/javascript";
     case ".png":
       return "image/png";
+    case ".json":
+      return "application/json";
+    case ".txt":
+      return "text/plain";
     case ".jpeg":
     case ".jpg":
       return "image/jpeg";
@@ -24,8 +28,16 @@ const getMimeType = (filePath) => {
   }
 };
 
-const getResponseHeader = (statusCode, mimeType, contentLength) => {
+const getResponseLogInfo = ({
+  statusCode,
+  mimeType,
+  contentLength = 0,
+  method = "GET",
+  url = "",
+  ip,
+}) => {
   let statusText;
+
   switch (statusCode) {
     case 200:
       statusText = "OK";
@@ -45,6 +57,10 @@ const getResponseHeader = (statusCode, mimeType, contentLength) => {
     `HTTP/1.1 ${statusCode} ${statusText}\r\n` +
     `Content-Type: ${mimeType}\r\n` +
     `Content-Length: ${contentLength}\r\n` +
+    `Method: ${method}\r\n` +
+    `Url: ${url}\r\n` +
+    `Ip: ${ip}\r\n` +
+    `Timpestamp: ${Date.now().toString()}\r\n` +
     "\r\n"
   );
 };
@@ -62,23 +78,75 @@ const handleRequest = (req, res, baseDirectory) => {
   }
 
   const filePath = path.join(baseDirectory, url);
+  const logsFilePath = path.join(baseDirectory, "log_basico.txt");
   const mimeType = getMimeType(filePath);
 
-  fs.readFile(filePath, (err, content) => {
-    if (err) {
-      if (err.code === "ENOENT") {
-        res.writeHead(404, { "Content-Type": "text/plain" });
-        res.end("File not found");
-      } else {
-        res.writeHead(500, { "Content-Type": "text/plain" });
-        res.end("Server error");
+  fetch("https://api.ipify.org?format=json")
+    .then((response) => response.json())
+    .then((dataIp) => {
+      const ip = dataIp.ip;
+      if (!ip) {
+        throw new Error("ip not found");
       }
-    } else {
-      const responseHeader = getResponseHeader(200, mimeType, content.length);
-      res.writeHead(200, { "Content-Type": mimeType });
-      res.end(method === "HEAD" ? null : content);
-    }
-  });
+
+      fs.readFile(filePath, (err, content) => {
+        let logInfo;
+        if (err) {
+          if (err.code === "ENOENT") {
+            res.writeHead(404, { "Content-Type": "text/plain" });
+            logInfo = getResponseLogInfo({
+              statusCode: 404,
+              mimeType,
+              method,
+              url,
+              ip,
+            });
+            res.end("File not found");
+          } else {
+            res.writeHead(500, { "Content-Type": "text/plain" });
+            logInfo = getResponseLogInfo({
+              statusCode: 500,
+              mimeType,
+              method,
+              url,
+              ip,
+            });
+            res.end("Server error");
+          }
+        } else {
+          logInfo = getResponseLogInfo({
+            contentLength: content.length,
+            statusCode: 200,
+            mimeType,
+            method,
+            url,
+            ip,
+          });
+          res.writeHead(200, { "Content-Type": mimeType });
+          res.end(method === "HEAD" ? null : content);
+        }
+
+        fs.appendFile(logsFilePath, String(logInfo), (err) => {
+          if (err) {
+            console.error("Failed to save response:", err);
+          }
+        });
+      });
+    })
+    .catch((err) => {
+      res.writeHead(500, { "Content-Type": "text/plain" });
+      const logInfo = getResponseLogInfo({
+        statusCode: 500,
+        method,
+        url,
+      });
+
+      fs.appendFile(logsFilePath, String(logInfo), (err) => {
+        if (err) {
+          console.error("Failed to save response:", err);
+        }
+      });
+    });
 };
 
 const startServer = (
@@ -87,6 +155,7 @@ const startServer = (
   timeout = DEFAULT_TIMEOUT
 ) => {
   const server = http.createServer((req, res) => {
+    console.log("ip");
     handleRequest(req, res, baseDirectory);
   });
 
@@ -97,4 +166,6 @@ const startServer = (
   });
 };
 
-startServer("/path/to/baseDirectory");
+// Recebe o diretório base dos arquivos como argumento
+const baseDirectory = process.argv[2] || "./api";
+startServer(baseDirectory);
