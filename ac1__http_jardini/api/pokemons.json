@@ -1,0 +1,143 @@
+{
+  "geracao": "Geração 8",
+  "pokemons": [
+    {
+      "numero": 810,
+      "nome": "Grookey",
+      "tipo": ["Grama"],
+      "evolucoes": ["Thwackey", "Rillaboom"]
+    },
+    {
+      "numero": 811,
+      "nome": "Thwackey",
+      "tipo": ["Grama"],
+      "evolucoes": ["Rillaboom"]
+    },
+    {
+      "numero": 812,
+      "nome": "Rillaboom",
+      "tipo": ["Grama"],
+      "evolucoes": []
+    },
+    {
+      "numero": 813,
+      "nome": "Scorbunny",
+      "tipo": ["Fogo"],
+      "evolucoes": ["Raboot", "Cinderace"]
+    },
+    {
+      "numero": 814,
+      "nome": "Raboot",
+      "tipo": ["Fogo"],
+      "evolucoes": ["Cinderace"]
+    },
+    {
+      "numero": 815,
+      "nome": "Cinderace",
+      "tipo": ["Fogo"],
+      "evolucoes": []
+    },
+    {
+      "numero": 816,
+      "nome": "Sobble",
+      "tipo": ["Água"],
+      "evolucoes": ["Drizzile", "Inteleon"]
+    },
+    {
+      "numero": 817,
+      "nome": "Drizzile",
+      "tipo": ["Água"],
+      "evolucoes": ["Inteleon"]
+    },
+    {
+      "numero": 818,
+      "nome": "Inteleon",
+      "tipo": ["Água"],
+      "evolucoes": []
+    },
+    {
+      "numero": 819,
+      "nome": "Skwovet",
+      "tipo": ["Normal"],
+      "evolucoes": ["Greedent"]
+    },
+    {
+      "numero": 820,
+      "nome": "Greedent",
+      "tipo": ["Normal"],
+      "evolucoes": []
+    },
+    {
+      "numero": 821,
+      "nome": "Rookidee",
+      "tipo": ["Voador"],
+      "evolucoes": ["Corvisquire", "Corviknight"]
+    },
+    {
+      "numero": 822,
+      "nome": "Corvisquire",
+      "tipo": ["Voador"],
+      "evolucoes": ["Corviknight"]
+    },
+    {
+      "numero": 823,
+      "nome": "Corviknight",
+      "tipo": ["Voador", "Aço"],
+      "evolucoes": []
+    },
+    {
+      "numero": 824,
+      "nome": "Blipbug",
+      "tipo": ["Inseto"],
+      "evolucoes": ["Dottler", "Orbeetle"]
+    },
+    {
+      "numero": 825,
+      "nome": "Dottler",
+      "tipo": ["Inseto", "Psíquico"],
+      "evolucoes": ["Orbeetle"]
+    },
+    {
+      "numero": 826,
+      "nome": "Orbeetle",
+      "tipo": ["Inseto", "Psíquico"],
+      "evolucoes": []
+    },
+    {
+      "numero": 827,
+      "nome": "Nickit",
+      "tipo": ["Sombrio"],
+      "evolucoes": ["Thievul"]
+    },
+    {
+      "numero": 828,
+      "nome": "Thievul",
+      "tipo": ["Sombrio"],
+      "evolucoes": []
+    },
+    {
+      "numero": 829,
+      "nome": "Gossifleur",
+      "tipo": ["Grama"],
+      "evolucoes": ["Eldegoss"]
+    },
+    {
+      "numero": 830,
+      "nome": "Eldegoss",
+      "tipo": ["Grama"],
+      "evolucoes": []
+    },
+    {
+      "numero": 831,
+      "nome": "Wooloo",
+      "tipo": ["Normal"],
+      "evolucoes": ["Dubwool"]
+    },
+    {
+      "numero": 832,
+      "nome": "Dubwool",
+      "tipo": ["Normal"],
+      "evolucoes": []
+    }
+  ]
+}

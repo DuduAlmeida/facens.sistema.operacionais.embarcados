@@ -1,0 +1,54 @@
+{
+  "nome": "PokéCorp",
+  "fundacao": 2000,
+  "ceo": "Ash Ketchum",
+  "endereco": {
+    "rua": "Rua Pokémon, 123",
+    "cidade": "Cidade Poké",
+    "estado": "Região Pokémon",
+    "pais": "Pokélia"
+  },
+  "departamentos": [
+    {
+      "nome": "Pesquisa e Desenvolvimento",
+      "funcionarios": 50,
+      "projetos": ["Pokédex 9000", "Mega Evolution"],
+      "lider": "Professor Oak"
+    },
+    {
+      "nome": "Marketing",
+      "funcionarios": 30,
+      "projetos": ["Lançamento do Pikachu 2.0", "Campanha de Treinadores"],
+      "lider": "Misty"
+    },
+    {
+      "nome": "Produção",
+      "funcionarios": 70,
+      "projetos": ["Pokébolas aprimoradas", "Potions de alta performance"],
+      "lider": "Brock"
+    }
+  ],
+  "clientes": ["Ginásios Pokémon", "Treinadores famosos", "Equipe Rocket"],
+  "parceiros": ["Centro Pokémon", "Liga Pokémon"],
+  "receita_anual": 1000000,
+  "filiais": [
+    {
+      "nome": "Filial de Cidade A",
+      "endereco": {
+        "rua": "Rua Poké, 456",
+        "cidade": "Cidade A",
+        "estado": "Estado X",
+        "pais": "Pokélia"
+      }
+    },
+    {
+      "nome": "Filial de Cidade B",
+      "endereco": {
+        "rua": "Rua Poké, 789",
+        "cidade": "Cidade B",
+        "estado": "Estado Y",
+        "pais": "Pokélia"
+      }
+    }
+  ]
+}
