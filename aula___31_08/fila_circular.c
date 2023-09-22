@@ -20,13 +20,13 @@ typedef struct Buffer
 
 Buffer buffer[MAX_BUFFER];
 
-int proximaPosicao(int posicao);
+int nextPosition(int posicao);
 void adicionarElemento(char *nomeProcesso, int memoriaAloc, float tempoExec);
-void removerElemento();
+void kernelRemoveElement();
 
 int main()
 {
-  removerElemento();
+  kernelRemoveElement();
   adicionarElemento("1", 128, 1.32);
   adicionarElemento("2", 128, 1.32);
   adicionarElemento("3", 128, 1.32);
@@ -36,24 +36,24 @@ int main()
 
   printf("\n\n\nRemover os adicionados:\n\n\n");
 
-  removerElemento(); //"1"
-  removerElemento(); //"2"
-  removerElemento(); //"3"
-  removerElemento(); //"4"
-  removerElemento(); //"5"
-  removerElemento(); // erro
+  kernelRemoveElement(); //"1"
+  kernelRemoveElement(); //"2"
+  kernelRemoveElement(); //"3"
+  kernelRemoveElement(); //"4"
+  kernelRemoveElement(); //"5"
+  kernelRemoveElement(); // erro
 
   return 0;
 }
 
-int proximaPosicao(int posicao)
+int nextPosition(int posicao)
 {
   return (posicao + 1) % (MAX_BUFFER + 1);
 }
 
 void adicionarElemento(char *nome_processo, int memoria_aloc, float tempo_exec)
 {
-  int novoFinal = proximaPosicao(fim);
+  int novoFinal = nextPosition(fim);
 
   if ((novoFinal) == inicio)
   {
@@ -71,14 +71,14 @@ void adicionarElemento(char *nome_processo, int memoria_aloc, float tempo_exec)
   printf("novoFinal=%d", fim);
 }
 
-void removerElemento()
+void kernelRemoveElement()
 {
 
   printf("\n fim=%d inicio=%d", fim, inicio);
   if (inicio != fim)
   {
     Buffer removido = buffer[inicio];
-    inicio = proximaPosicao(inicio);
+    inicio = nextPosition(inicio);
 
     // return removido->nomeProcesso[0];
     printf("\n\nRemoveu %c!", removido.nomeProcesso[0]);

@@ -21,14 +21,14 @@ typedef struct Buffer
 
 Buffer buffer[MAX_BUFFER];
 
-void executarBuffer();
-void removerElemento();
-void inicializarBuffer();
-int proximaPosicao(int posicao);
+void kernelLoop();
+void kernelRemoveElement();
+void kernelInit();
+int nextPosition(int posicao);
 void adicionarElemento(char *nomeProcesso, executaBuffer funcExecucao);
-void func0();
-void func1();
-void func2();
+void processoA();
+void processoB();
+void processoC();
 void func3();
 void func4();
 void func5();
@@ -36,56 +36,56 @@ void func6();
 
 int main()
 {
-  inicializarBuffer();
+  kernelInit();
 
-  removerElemento(); // Erro de fila vazia
+  kernelRemoveElement(); // Erro de fila vazia
 
-  adicionarElemento("1", &func1);
-  adicionarElemento("2", &func2);
+  adicionarElemento("1", &processoB);
+  adicionarElemento("2", &processoC);
   adicionarElemento("3", &func3);
   adicionarElemento("4", &func4);
   adicionarElemento("5", &func5);
   adicionarElemento("6", &func6); // erro de fila cheia
 
-  executarBuffer(); // Executa do 1 ao 5
+  kernelLoop(); // Executa do 1 ao 5
 
   printf("\n\n\nRemover os adicionados:\n\n\n");
 
-  removerElemento(); //"1"
-  removerElemento(); //"2"
-  removerElemento(); //"3"
-  adicionarElemento("1", &func1);
-  adicionarElemento("2", &func2);
-  executarBuffer();  // Executa na ordem: 4,5,1,2
-  removerElemento(); //"4"
-  removerElemento(); //"5"
-  removerElemento(); //"1"
-  removerElemento(); //"2"
-  removerElemento(); // Erro de fila vazia
+  kernelRemoveElement(); //"1"
+  kernelRemoveElement(); //"2"
+  kernelRemoveElement(); //"3"
+  adicionarElemento("1", &processoB);
+  adicionarElemento("2", &processoC);
+  kernelLoop();  // Executa na ordem: 4,5,1,2
+  kernelRemoveElement(); //"4"
+  kernelRemoveElement(); //"5"
+  kernelRemoveElement(); //"1"
+  kernelRemoveElement(); //"2"
+  kernelRemoveElement(); // Erro de fila vazia
 
   return 0;
 }
 
-void inicializarBuffer()
+void kernelInit()
 {
   for (int i = 0; i < MAX_BUFFER; i++)
   {
     buffer[i].nomeProcesso = "0";
-    buffer[i].executar = &func0;
+    buffer[i].executar = &processoA;
   }
 
   inicio = 0;
   fim = inicio;
 }
 
-int proximaPosicao(int posicao)
+int nextPosition(int posicao)
 {
   return (posicao + 1) % (MAX_BUFFER + 1);
 }
 
 void adicionarElemento(char *nomeProcesso, executaBuffer funcExecucao)
 {
-  int novoFinal = proximaPosicao(fim);
+  int novoFinal = nextPosition(fim);
 
   if ((novoFinal) == inicio)
   {
@@ -101,14 +101,14 @@ void adicionarElemento(char *nomeProcesso, executaBuffer funcExecucao)
   printf("novoFinal=%d", fim);
 }
 
-void removerElemento()
+void kernelRemoveElement()
 {
 
   printf("\n fim=%d inicio=%d", fim, inicio);
   if (inicio != fim)
   {
     Buffer removido = buffer[inicio];
-    inicio = proximaPosicao(inicio);
+    inicio = nextPosition(inicio);
 
     // return removido->nomeProcesso[0];
     printf("\n\nRemoveu %c!", removido.nomeProcesso[0]);
@@ -118,7 +118,7 @@ void removerElemento()
   printf("\n\nFila vazia!\n\n");
 }
 
-void executarBuffer()
+void kernelLoop()
 {
   int i = inicio;
 
@@ -133,21 +133,21 @@ void executarBuffer()
   {
     printf("\n\nINDEX EXECUTADO:%d", i);
     buffer[i].executar();
-    i = proximaPosicao(i);
+    i = nextPosition(i);
   }
 }
 
-void func0()
+void processoA()
 {
   printf("\n\nEssa função não deve ser chamada nunca, pois é o valor inicial do buffer");
 }
 
-void func1()
+void processoB()
 {
   printf("\n\nResultado da função 1");
 }
 
-void func2()
+void processoC()
 {
   printf("\n\nResultado da função 2");
 }
