@@ -5,7 +5,7 @@ const path = require("path");
 const DEFAULT_PORT = 1234;
 const DEFAULT_TIMEOUT = 20000;
 
-const getMimeType = (filePath) => {
+const getArchiveUsedType = (filePath) => {
   const extname = path.extname(filePath);
   switch (extname) {
     case ".html":
@@ -79,7 +79,7 @@ const handleRequest = (req, res, baseDirectory) => {
 
   const filePath = path.join(baseDirectory, url);
   const logsFilePath = path.join(baseDirectory, "log_basico.txt");
-  const mimeType = getMimeType(filePath);
+  const mimeType = getArchiveUsedType(filePath);
 
   fetch("https://api.ipify.org?format=json")
     .then((response) => response.json())
