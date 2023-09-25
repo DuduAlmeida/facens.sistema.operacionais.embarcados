@@ -65,6 +65,16 @@ const getResponseLogInfo = ({
   );
 };
 
+const render404Page = (res) => {
+  console.log("Caiu no 404");
+  const filePath = path.join(baseDirectory, "/404.html");
+  getArchiveUsedType(filePath);
+
+  fs.readFile(filePath, (err, content) => {
+    res.end(content);
+  });
+};
+
 const handleRequest = (req, res, baseDirectory) => {
   const method = req.method;
   const url = req.url;
@@ -77,7 +87,13 @@ const handleRequest = (req, res, baseDirectory) => {
     return;
   }
 
-  const filePath = path.join(baseDirectory, url);
+  let filePath = path.join(baseDirectory, url);
+  const isFileInvalid = url === "/";
+
+  if (isFileInvalid) {
+    filePath = path.join(baseDirectory, "/index.html");
+  }
+
   const logsFilePath = path.join(baseDirectory, "log_basico.txt");
   const mimeType = getArchiveUsedType(filePath);
 
@@ -93,7 +109,7 @@ const handleRequest = (req, res, baseDirectory) => {
         let logInfo;
         if (err) {
           if (err.code === "ENOENT") {
-            res.writeHead(404, { "Content-Type": "text/plain" });
+            res.writeHead(404, { "Content-Type": "text/html" });
             logInfo = getResponseLogInfo({
               statusCode: 404,
               mimeType,
@@ -101,7 +117,10 @@ const handleRequest = (req, res, baseDirectory) => {
               url,
               ip,
             });
-            res.end("File not found");
+
+            render404Page(res);
+
+            // res.end("File not found");
           } else {
             res.writeHead(500, { "Content-Type": "text/plain" });
             logInfo = getResponseLogInfo({
