@@ -2,19 +2,39 @@ import { Address } from '../address/address.interface';
 import { Hotel, HotelCategory, RoomCategory } from './hotel.interface';
 import objects from 'src/utils/objects';
 import { validateHotel } from './validations';
+import { ApiProperty } from '@nestjs/swagger';
 
 export type CreateHotelPayload = Omit<Hotel, 'id'>;
 
 export class CreateHotelPayloadRequest {
+  @ApiProperty()
   name: string;
+
+  @ApiProperty()
   address: Address;
+
+  @ApiProperty()
   starsQuantity: number;
+
+  @ApiProperty()
   description: string;
+
+  @ApiProperty()
   hasBreakfast: boolean;
+
+  @ApiProperty()
   hasLunch: boolean;
+
+  @ApiProperty()
   hasDinner: boolean;
+
+  @ApiProperty()
   category: HotelCategory;
+
+  @ApiProperty()
   parkingLotsQuantity?: number;
+
+  @ApiProperty()
   roomCategories: RoomCategory[];
 
   constructor(

@@ -1,3 +1,4 @@
+import { ApiProperty } from '@nestjs/swagger';
 import { Address } from '../address/address.interface';
 
 export type HotelCategory = 'barato' | 'econômico' | 'luxuoso';
@@ -18,16 +19,27 @@ export type Hotel = {
 };
 
 export class HotelResponse {
+  @ApiProperty()
   id: string;
+  @ApiProperty()
   name: string;
+  @ApiProperty()
   address: Address;
+  @ApiProperty()
   starsQuantity: number;
+  @ApiProperty()
   description: string;
+  @ApiProperty()
   hasBreakfast: boolean;
+  @ApiProperty()
   hasLunch: boolean;
+  @ApiProperty()
   hasDinner: boolean;
+  @ApiProperty()
   category: HotelCategory;
+  @ApiProperty()
   parkingLotsQuantity?: number;
+  @ApiProperty()
   roomCategories: RoomCategory[];
 
   constructor(
