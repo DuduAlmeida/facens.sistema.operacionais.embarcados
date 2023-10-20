@@ -1,24 +1,11 @@
 import { Address } from '../address/address.interface';
+import { Hotel, HotelCategory, RoomCategory } from './hotel.interface';
+import objects from 'src/utils/objects';
+import { validateHotel } from './validations';
 
-export type HotelCategory = 'barato' | 'econômico' | 'luxuoso';
-export type RoomCategory = '1_single_bed' | '2_single_bed' | '1_couple_bed';
+export type CreateHotelPayload = Omit<Hotel, 'id'>;
 
-export type Hotel = {
-  id: string;
-  name: string;
-  address: Address;
-  starsQuantity: number;
-  description: string;
-  hasBreakfast: boolean;
-  hasLunch: boolean;
-  hasDinner: boolean;
-  category: HotelCategory;
-  parkingLotsQuantity?: number;
-  roomCategories: RoomCategory[];
-};
-
-export class HotelResponse {
-  id: string;
+export class CreateHotelPayloadRequest {
   name: string;
   address: Address;
   starsQuantity: number;
@@ -31,7 +18,6 @@ export class HotelResponse {
   roomCategories: RoomCategory[];
 
   constructor(
-    id: string,
     name: string,
     address: Address,
     starsQuantity: number,
@@ -43,7 +29,6 @@ export class HotelResponse {
     parkingLotsQuantity?: number,
     roomCategories: RoomCategory[] = [],
   ) {
-    this.id = id;
     this.name = name;
     this.address = address;
     this.starsQuantity = starsQuantity;
@@ -54,5 +39,28 @@ export class HotelResponse {
     this.category = category;
     this.parkingLotsQuantity = parkingLotsQuantity;
     this.roomCategories = roomCategories;
+  }
+
+  validate(): {
+    hasError: boolean;
+    message: string;
+  } {
+    return validateHotel(this.getHotel());
+  }
+
+  getHotel(): Hotel {
+    return {
+      id: objects.generateUuid(),
+      name: this.name,
+      address: this.address,
+      category: this.category,
+      hasLunch: this.hasLunch,
+      hasDinner: this.hasDinner,
+      description: this.description,
+      hasBreakfast: this.hasBreakfast,
+      starsQuantity: this.starsQuantity,
+      roomCategories: this.roomCategories,
+      parkingLotsQuantity: this.parkingLotsQuantity,
+    };
   }
 }

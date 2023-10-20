@@ -17,6 +17,10 @@ import {
   RoomCategory,
 } from '../../contracts/hotel/hotel.interface';
 import { HotelsService } from './hotels.service';
+import { CreateHotelPayloadRequest } from 'src/contracts/hotel/hotel.create';
+import { HttpResponse } from 'src/utils/http_response/interface';
+import http_response from 'src/utils/http_response';
+import { UpdateHotelPayloadRequest } from 'src/contracts/hotel/hotel.update';
 
 @Controller('hotels')
 export class HotelsController {
@@ -27,10 +31,21 @@ export class HotelsController {
   @ApiResponse({
     status: 201,
     description: 'The hotel has been successfully created',
-    type: HotelResponse,
+    type: HttpResponse<HotelResponse>,
   })
-  createHotel(@Body() hotel: Hotel): Hotel {
-    return this.hotelsService.create(hotel);
+  createHotel(@Body() payload: CreateHotelPayloadRequest): HttpResponse<Hotel> {
+    const { hasError, message: errorMessage } = payload.validate();
+
+    if (hasError) {
+      return http_response.ResultError(errorMessage);
+    }
+
+    const hotelCreated = this.hotelsService.create(payload.getHotel());
+
+    return http_response.ResultOk(
+      hotelCreated,
+      'The hotel has been successfully created',
+    );
   }
 
   @Get()
@@ -50,7 +65,9 @@ export class HotelsController {
     @Query('category') category?: HotelCategory,
     @Query('roomCategories') roomCategories?: RoomCategory[],
   ): Hotel[] {
-    return this.hotelsService.findAll(category, roomCategories);
+    if (roomCategories) roomCategories = JSON.parse(roomCategories as any);
+
+    return this.hotelsService.findAll({ category, roomCategories });
   }
 
   @Get(':id')
@@ -75,8 +92,25 @@ export class HotelsController {
     type: HotelResponse,
   })
   @ApiResponse({ status: 404, description: 'Hotel not found' })
-  updateHotelById(@Param('id') id: string, @Body() hotel: Hotel): Hotel {
-    return this.hotelsService.update(id, hotel);
+  updateHotelById(
+    @Param('id') id: string,
+    @Body() payload: UpdateHotelPayloadRequest,
+  ): HttpResponse<Hotel> {
+    const { hasError, message: errorMessage } = payload.validate();
+
+    if (hasError) {
+      return http_response.ResultError(errorMessage);
+    }
+    const hotelUpdated = this.hotelsService.update(id, payload.getHotel(id));
+
+    if (!hotelUpdated) {
+      return http_response.ResultError('Hotel not found', 'not-found');
+    }
+
+    return http_response.ResultOk(
+      hotelUpdated,
+      'The hotel has been successfully updated',
+    );
   }
 
   @Delete(':id')

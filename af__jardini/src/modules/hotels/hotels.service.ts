@@ -1,13 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import {
-  Hotel,
-  HotelCategory,
-  RoomCategory,
-} from 'src/contracts/hotel/hotel.interface';
+import { Hotel } from 'src/contracts/hotel/hotel.interface';
+import { HOTELS_MOCK } from 'src/mocks/hotel';
+import { FindAllProps } from './contracts';
 
 @Injectable()
 export class HotelsService {
-  private hotels: Hotel[] = [];
+  private hotels: Hotel[] = HOTELS_MOCK;
 
   create(hotel: Hotel): Hotel {
     const newHotel: Hotel = { ...hotel };
@@ -15,20 +13,34 @@ export class HotelsService {
     return newHotel;
   }
 
-  findAll(category?: HotelCategory, roomCategories?: RoomCategory[]): Hotel[] {
+  findAll({ category, roomCategories = [] }: FindAllProps): Hotel[] {
     let filteredHotels: Hotel[] = [...this.hotels];
-    if (category) {
+    if (!!category) {
+      console.log('Entrou no filtro de hotel category');
       filteredHotels = filteredHotels.filter(
         (hotel) => hotel.category === category,
       );
     }
-    if (roomCategories && roomCategories.length > 0) {
+
+    if (
+      !!roomCategories &&
+      Array.isArray(roomCategories) &&
+      roomCategories.length
+    ) {
+      console.log(
+        'Entrou no filtro de room categories',
+        roomCategories,
+        roomCategories.length,
+        roomCategories.length > 0,
+      );
+
       filteredHotels = filteredHotels.filter((hotel) =>
         hotel.roomCategories.some((roomCategory) =>
           roomCategories.includes(roomCategory),
         ),
       );
     }
+
     return filteredHotels;
   }
 
@@ -43,6 +55,7 @@ export class HotelsService {
       this.hotels[index] = updatedHotel;
       return updatedHotel;
     }
+
     return null;
   }
 
@@ -53,6 +66,7 @@ export class HotelsService {
       this.hotels.splice(index, 1);
       return deletedHotel;
     }
+
     return null;
   }
 }
