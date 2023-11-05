@@ -10,30 +10,28 @@ import {
 } from '@nestjs/common';
 import { ApiOperation, ApiParam, ApiQuery, ApiResponse } from '@nestjs/swagger';
 
+import { CreateHotelPayloadRequest } from 'src/contracts/hotel/hotel.create';
+import { UpdateHotelPayloadRequest } from 'src/contracts/hotel/hotel.update';
+import http_response from 'src/utils/http_response';
 import {
-  Hotel,
   HotelCategory,
-  HotelResponse,
   RoomCategory,
 } from '../../contracts/hotel/hotel.interface';
+import { HttpHotelListResponse, HttpHotelResponse } from './contracts';
 import { HotelsService } from './hotels.service';
-import { CreateHotelPayloadRequest } from 'src/contracts/hotel/hotel.create';
-import { HttpResponse } from 'src/utils/http_response/interface';
-import http_response from 'src/utils/http_response';
-import { UpdateHotelPayloadRequest } from 'src/contracts/hotel/hotel.update';
 
 @Controller('hotels')
 export class HotelsController {
   constructor(private readonly hotelsService: HotelsService) {}
 
   @Post()
-  @ApiOperation({ summary: 'Create a new hotel' })
+  @ApiOperation({ summary: 'Adiciona um no hotel na aplicação' })
   @ApiResponse({
     status: 201,
     description: 'The hotel has been successfully created',
-    type: HttpResponse<HotelResponse>,
+    type: HttpHotelResponse,
   })
-  createHotel(@Body() payload: CreateHotelPayloadRequest): HttpResponse<Hotel> {
+  createHotel(@Body() payload: CreateHotelPayloadRequest): HttpHotelResponse {
     const { hasError, message: errorMessage } = payload.validate();
 
     if (hasError) {
@@ -49,7 +47,7 @@ export class HotelsController {
   }
 
   @Get()
-  @ApiOperation({ summary: 'Get all hotels' })
+  @ApiOperation({ summary: 'Lista todos os hotéis' })
   @ApiQuery({
     name: 'name',
     type: String,
@@ -66,42 +64,61 @@ export class HotelsController {
     isArray: true,
     required: false,
   })
+  @ApiResponse({
+    status: 200,
+    description: 'The hotel has been successfully found',
+    type: HttpHotelListResponse,
+  })
   getAllHotels(
     @Query('name') name?: string,
     @Query('category') category?: HotelCategory,
     @Query('roomCategories') roomCategories?: RoomCategory[],
-  ): Hotel[] {
+  ): HttpHotelListResponse {
     if (roomCategories) roomCategories = JSON.parse(roomCategories as any);
 
-    return this.hotelsService.findAll({ name, category, roomCategories });
+    const hotelList = this.hotelsService.findAll({
+      name,
+      category,
+      roomCategories,
+    });
+
+    return http_response.ResultOk(
+      hotelList,
+      'The hotel has been successfully found',
+    );
   }
 
   @Get(':id')
-  @ApiOperation({ summary: 'Get a hotel by ID' })
+  @ApiOperation({ summary: 'Retorna as informações do hotel por ID' })
   @ApiParam({ name: 'id', description: 'Hotel ID' })
   @ApiResponse({
     status: 200,
     description: 'The hotel has been successfully found',
-    type: HotelResponse,
+    type: HttpHotelResponse,
   })
   @ApiResponse({ status: 404, description: 'Hotel not found' })
-  getHotelById(@Param('id') id: string): Hotel {
-    return this.hotelsService.findOne(id);
+  getHotelById(@Param('id') id: string): HttpHotelResponse {
+    const hotelFound = this.hotelsService.findOne(id);
+
+    return http_response.ResultOk(
+      hotelFound,
+      'The hotel has been successfully found',
+    );
   }
 
   @Patch(':id')
-  @ApiOperation({ summary: 'Update a hotel by ID' })
+  @ApiOperation({ summary: 'Atualiza um hotel por ID' })
   @ApiParam({ name: 'id', description: 'Hotel ID' })
   @ApiResponse({
     status: 200,
     description: 'The hotel has been successfully updated',
-    type: HotelResponse,
+    type: HttpHotelResponse,
   })
   @ApiResponse({ status: 404, description: 'Hotel not found' })
   updateHotelById(
     @Param('id') id: string,
     @Body() payload: UpdateHotelPayloadRequest,
-  ): HttpResponse<Hotel> {
+  ): HttpHotelResponse {
     const { hasError, message: errorMessage } = payload.validate();
 
     if (hasError) {
@@ -120,15 +137,20 @@ export class HotelsController {
   }
 
   @Delete(':id')
-  @ApiOperation({ summary: 'Delete a hotel by ID' })
+  @ApiOperation({ summary: 'Remove um hotel por ID' })
   @ApiParam({ name: 'id', description: 'Hotel ID' })
   @ApiResponse({
     status: 200,
     description: 'The hotel has been successfully deleted',
-    type: HotelResponse,
+    type: HttpHotelResponse,
   })
   @ApiResponse({ status: 404, description: 'Hotel not found' })
-  deleteHotelById(@Param('id') id: string): Hotel {
-    return this.hotelsService.delete(id);
+  deleteHotelById(@Param('id') id: string): HttpHotelResponse {
+    const hotelDeleted = this.hotelsService.delete(id);
+
+    return http_response.ResultOk(
+      hotelDeleted,
+      'The hotel has been successfully deleted',
+    );
   }
 }

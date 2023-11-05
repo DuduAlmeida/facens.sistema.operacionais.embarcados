@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Address } from '../address/address.interface';
+import { Address, AddressResponse } from '../address/address.interface';
 
 export type HotelCategory = 'barato' | 'econômico' | 'luxuoso';
 export type RoomCategory = '1_single_bed' | '2_single_bed' | '1_couple_bed';
@@ -24,7 +24,7 @@ export class HotelResponse {
   @ApiProperty()
   name: string;
   @ApiProperty()
-  address: Address;
+  address: AddressResponse;
   @ApiProperty()
   starsQuantity: number;
   @ApiProperty()
