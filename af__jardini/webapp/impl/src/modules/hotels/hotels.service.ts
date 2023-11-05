@@ -13,8 +13,16 @@ export class HotelsService {
     return newHotel;
   }
 
-  findAll({ category, roomCategories = [] }: FindAllProps): Hotel[] {
+  findAll({ category, roomCategories = [], name }: FindAllProps): Hotel[] {
     let filteredHotels: Hotel[] = [...this.hotels];
+
+    if (!!name) {
+      console.log('Entrou no filtro de hotel name');
+      filteredHotels = filteredHotels.filter((hotel) =>
+        hotel.name.toLowerCase().indexOf(name.toLowerCase()),
+      );
+    }
+
     if (!!category) {
       console.log('Entrou no filtro de hotel category');
       filteredHotels = filteredHotels.filter(

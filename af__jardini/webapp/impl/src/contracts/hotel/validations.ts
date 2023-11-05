@@ -60,7 +60,35 @@ export function validateHotel(
     };
   }
 
-  //TODO: ADICIONAR AS VALIDAÇÕES DAS CATEGORIAS DO QUARTO E HOTEL
+  const isRoomCategoriesValid =
+    [null, undefined].includes(payload.roomCategories) ||
+    !payload.roomCategories.length
+      ? false
+      : payload.roomCategories
+          .map((roomCategory) =>
+            ['1_single_bed', '2_single_bed', '1_couple_bed'].includes(
+              roomCategory,
+            ),
+          )
+          .includes(false);
+  if (!isRoomCategoriesValid) {
+    return {
+      hasError: true,
+      message:
+        'roomCategories must be an array with "1_single_bed", "2_single_bed" or "1_couple_bed"',
+    };
+  }
+
+  const isHotelCategoriesValid =
+    [null, undefined].includes(payload.category) ||
+    !['barato', 'econômico', 'luxuoso'].includes(payload.category);
+  if (!isHotelCategoriesValid) {
+    return {
+      hasError: true,
+      message:
+        'category must be one of the three options "barato", "econômico" or "luxuoso"',
+    };
+  }
 
   return { hasError: false, message: '' };
 }

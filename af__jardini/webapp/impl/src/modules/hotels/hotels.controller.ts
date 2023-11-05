@@ -51,6 +51,11 @@ export class HotelsController {
   @Get()
   @ApiOperation({ summary: 'Get all hotels' })
   @ApiQuery({
+    name: 'name',
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
     name: 'category',
     enum: ['barato', 'econômico', 'luxuoso'],
     required: false,
@@ -62,12 +67,13 @@ export class HotelsController {
     required: false,
   })
   getAllHotels(
+    @Query('name') name?: string,
     @Query('category') category?: HotelCategory,
     @Query('roomCategories') roomCategories?: RoomCategory[],
   ): Hotel[] {
     if (roomCategories) roomCategories = JSON.parse(roomCategories as any);
 
-    return this.hotelsService.findAll({ category, roomCategories });
+    return this.hotelsService.findAll({ name, category, roomCategories });
   }
 
   @Get(':id')
