@@ -1,4 +1,4 @@
-import { Address } from '../address/address.interface';
+import { Address, AddressResponse } from '../address/address.interface';
 import { Hotel, HotelCategory, RoomCategory } from './hotel.interface';
 import objects from 'src/utils/objects';
 import { validateHotel } from './validations';
@@ -11,7 +11,7 @@ export class CreateHotelPayloadRequest {
   name: string;
 
   @ApiProperty()
-  address: Address;
+  address: AddressResponse;
 
   @ApiProperty()
   starsQuantity: number;
