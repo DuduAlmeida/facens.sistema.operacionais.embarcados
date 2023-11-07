@@ -1,0 +1,253 @@
+{
+	"info": {
+		"_postman_id": "988c6456-400f-4d71-bfd6-46be5385ac6f",
+		"name": "Hotel Api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30989059"
+	},
+	"item": [
+		{
+			"name": "Listar Hotéis",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/hotels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"hotels"
+					],
+					"query": [
+						{
+							"key": "roomCategories",
+							"value": "[\"1_couple_bed\"]",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "\"luxuoso\"",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Pegar um hotel",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:4321/hotels/hotel1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"hotels",
+						"hotel1"
+					],
+					"query": [
+						{
+							"key": "roomCategories",
+							"value": "[\"1_couple_bed\"]",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "\"luxuoso\"",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Atualizar hotel",
+			"request": {
+				"method": "PATCH",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"id\": \"hotel1\",\n        \"name\": \"Hotel Lux atualizado\",\n        \"address\": {\n            \"city\": \"São Paulo\",\n            \"street\": \"Av. Paulista\",\n            \"zipNumber\": \"01310-100\",\n            \"number\": 123,\n            \"neighborhood\": \"Bela Vista\",\n            \"country\": \"Brasil\",\n            \"state\": \"SP\"\n        },\n        \"starsQuantity\": 5,\n        \"description\": \"Um hotel luxuoso com vista para a Avenida Paulista.\",\n        \"hasBreakfast\": true,\n        \"hasLunch\": true,\n        \"hasDinner\": false,\n        \"category\": \"luxuoso\",\n        \"parkingLotsQuantity\": 50,\n        \"roomCategories\": [\n            \"1_single_bed\",\n            \"2_single_bed\",\n            \"1_couple_bed\"\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4321/hotels/hotel1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"hotels",
+						"hotel1"
+					],
+					"query": [
+						{
+							"key": "roomCategories",
+							"value": "[\"1_couple_bed\"]",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "\"luxuoso\"",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Remover um hotel",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"id\": \"hotel1\",\n        \"name\": \"Hotel Lux atualizado\",\n        \"address\": {\n            \"city\": \"São Paulo\",\n            \"street\": \"Av. Paulista\",\n            \"zipNumber\": \"01310-100\",\n            \"number\": 123,\n            \"neighborhood\": \"Bela Vista\",\n            \"country\": \"Brasil\",\n            \"state\": \"SP\"\n        },\n        \"starsQuantity\": 5,\n        \"description\": \"Um hotel luxuoso com vista para a Avenida Paulista.\",\n        \"hasBreakfast\": true,\n        \"hasLunch\": true,\n        \"hasDinner\": false,\n        \"category\": \"luxuoso\",\n        \"parkingLotsQuantity\": 50,\n        \"roomCategories\": [\n            \"1_single_bed\",\n            \"2_single_bed\",\n            \"1_couple_bed\"\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4321/hotels/hotel1",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"hotels",
+						"hotel1"
+					],
+					"query": [
+						{
+							"key": "roomCategories",
+							"value": "[\"1_couple_bed\"]",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "\"luxuoso\"",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Criar um hotel",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n        \"name\": \"Hotel Lux atualizado\",\n        \"address\": {\n            \"city\": \"São Paulo\",\n            \"street\": \"Av. Paulista\",\n            \"zipNumber\": \"01310-100\",\n            \"number\": 123,\n            \"neighborhood\": \"Bela Vista\",\n            \"country\": \"Brasil\",\n            \"state\": \"SP\"\n        },\n        \"starsQuantity\": 5,\n        \"description\": \"Um hotel luxuoso com vista para a Avenida Paulista.\",\n        \"hasBreakfast\": true,\n        \"hasLunch\": true,\n        \"hasDinner\": false,\n        \"category\": \"luxuoso\",\n        \"parkingLotsQuantity\": 50,\n        \"roomCategories\": [\n            \"1_single_bed\",\n            \"2_single_bed\",\n            \"1_couple_bed\"\n        ]\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4321/hotels",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"hotels"
+					],
+					"query": [
+						{
+							"key": "roomCategories",
+							"value": "[\"1_couple_bed\"]",
+							"disabled": true
+						},
+						{
+							"key": "category",
+							"value": "\"luxuoso\"",
+							"disabled": true
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkin Quarto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"hotelId\": \"hotel1\",\n    \"category\": \"1_single_bed\",\n    \"cpf\": \"98257438081\",\n    \"name\": \"Juliano Almeida\",\n    \"checkinTime\": \"2023-11-07T02:22:40.148Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4321/hotels/checkin",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"hotels",
+						"checkin"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Checkout Quarto",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\": \"5dd2b401-3265-4436-a88a-1a708d998a90e\",\n    \"hotelId\": \"hotel1\",\n    \"checkoutTime\": \"2023-11-07T02:22:40.148Z\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:4321/hotels/checkout",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "4321",
+					"path": [
+						"hotels",
+						"checkout"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
