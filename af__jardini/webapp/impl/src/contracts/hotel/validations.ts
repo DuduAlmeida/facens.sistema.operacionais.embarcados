@@ -16,7 +16,9 @@ export function validateHotel(
     };
   }
 
-  const isAddressValid = [
+  console.log('payload.address', payload.address);
+
+  const isAddressInvalid = [
     !!payload.address.city,
     !!payload.address.country,
     !!payload.address.neighborhood,
@@ -25,7 +27,7 @@ export function validateHotel(
     !!payload.address.zipNumber,
   ].includes(false);
 
-  if (!isAddressValid) {
+  if (isAddressInvalid) {
     return {
       hasError: true,
       message: 'address it is not filled correctly',
@@ -60,7 +62,7 @@ export function validateHotel(
     };
   }
 
-  const isRoomCategoriesValid =
+  const isRoomCategoriesInvalid =
     [null, undefined].includes(payload.roomCategories) ||
     !payload.roomCategories.length
       ? false
@@ -71,7 +73,7 @@ export function validateHotel(
             ),
           )
           .includes(false);
-  if (!isRoomCategoriesValid) {
+  if (isRoomCategoriesInvalid) {
     return {
       hasError: true,
       message:
@@ -79,10 +81,10 @@ export function validateHotel(
     };
   }
 
-  const isHotelCategoriesValid =
+  const isHotelCategoriesInvalid =
     [null, undefined].includes(payload.category) ||
     !['barato', 'econômico', 'luxuoso'].includes(payload.category);
-  if (!isHotelCategoriesValid) {
+  if (isHotelCategoriesInvalid) {
     return {
       hasError: true,
       message:

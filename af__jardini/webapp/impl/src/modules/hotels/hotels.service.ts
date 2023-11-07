@@ -2,6 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { Hotel } from 'src/contracts/hotel/hotel.interface';
 import { HOTELS_MOCK } from 'src/mocks/hotel';
 import { FindAllProps } from './contracts';
+import { RoomRent } from 'src/contracts/roomRent/checkin.interface';
+import { UpdateRoomRent } from 'src/contracts/roomRent/checkin.update';
 
 @Injectable()
 export class HotelsService {
@@ -11,6 +13,52 @@ export class HotelsService {
     const newHotel: Hotel = { ...hotel };
     this.hotels.push(newHotel);
     return newHotel;
+  }
+
+  checkin(room: RoomRent): { room: RoomRent; errorMessage: string } {
+    const hotelFound = this.hotels.find((hotel) => room.hotelId === hotel.id);
+
+    if (!hotelFound) return { room, errorMessage: 'Hotel not found!' };
+    if (!hotelFound.roomCategories.includes(room.category))
+      return { room, errorMessage: 'Hotel doesnt have this category!' };
+
+    this.hotels = this.hotels.map((hotel) => {
+      if (room.hotelId === hotel.id) {
+        hotel.rentedRooms.push(room);
+      }
+
+      return hotel;
+    });
+
+    return { room, errorMessage: '' };
+  }
+
+  checkout(payload: UpdateRoomRent): { room?: RoomRent; errorMessage: string } {
+    const hotelFound = this.hotels.find(
+      (hotel) => hotel.id === payload.hotelId,
+    );
+    if (!hotelFound) return { errorMessage: 'Hotel not found!' };
+
+    const room = hotelFound.rentedRooms.find(
+      (roomItem) => roomItem.id === payload.id,
+    );
+    if (!room) return { room, errorMessage: 'Room not found!' };
+
+    this.hotels = this.hotels.map((hotel) => {
+      if (room.hotelId === hotel.id) {
+        hotel.rentedRooms = hotel.rentedRooms.map((roomItem) => {
+          if (roomItem.id === payload.id) {
+            roomItem.checkoutTime = new Date();
+          }
+
+          return roomItem;
+        });
+      }
+
+      return hotel;
+    });
+
+    return { room, errorMessage: '' };
   }
 
   findAll({ category, roomCategories = [], name }: FindAllProps): Hotel[] {
@@ -60,7 +108,10 @@ export class HotelsService {
     const index = this.hotels.findIndex((hotel) => hotel.id === id);
     if (index >= 0) {
       const updatedHotel: Hotel = { ...hotel, id };
-      this.hotels[index] = updatedHotel;
+      this.hotels[index] = {
+        ...updatedHotel,
+        rentedRooms: this.hotels[index].rentedRooms,
+      };
       return updatedHotel;
     }
 

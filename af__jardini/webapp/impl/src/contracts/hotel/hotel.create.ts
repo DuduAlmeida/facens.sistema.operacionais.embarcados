@@ -1,8 +1,9 @@
-import { Address, AddressResponse } from '../address/address.interface';
-import { Hotel, HotelCategory, RoomCategory } from './hotel.interface';
-import objects from 'src/utils/objects';
-import { validateHotel } from './validations';
 import { ApiProperty } from '@nestjs/swagger';
+import objects from 'src/utils/objects';
+import { AddressResponse } from '../address/address.interface';
+import { RoomRent, RoomRentResponse } from '../roomRent/checkin.interface';
+import { Hotel, HotelCategory, RoomCategory } from './hotel.interface';
+import { validateHotel } from './validations';
 
 export type CreateHotelPayload = Omit<Hotel, 'id'>;
 
@@ -37,18 +38,21 @@ export class CreateHotelPayloadRequest {
   @ApiProperty()
   roomCategories: RoomCategory[];
 
-  constructor(
-    name: string,
-    address: Address,
-    starsQuantity: number,
-    description: string,
-    hasBreakfast: boolean,
-    hasLunch: boolean,
-    hasDinner: boolean,
-    category: HotelCategory,
-    parkingLotsQuantity?: number,
-    roomCategories: RoomCategory[] = [],
-  ) {
+  @ApiProperty()
+  rentedRooms: RoomRentResponse[];
+
+  constructor({
+    name,
+    address,
+    starsQuantity,
+    description,
+    hasBreakfast,
+    hasLunch,
+    hasDinner,
+    category,
+    parkingLotsQuantity,
+    roomCategories = [],
+  }: any) {
     this.name = name;
     this.address = address;
     this.starsQuantity = starsQuantity;
@@ -59,6 +63,7 @@ export class CreateHotelPayloadRequest {
     this.category = category;
     this.parkingLotsQuantity = parkingLotsQuantity;
     this.roomCategories = roomCategories;
+    this.rentedRooms = [] as RoomRentResponse[];
   }
 
   validate(): {
@@ -80,6 +85,7 @@ export class CreateHotelPayloadRequest {
       hasBreakfast: this.hasBreakfast,
       starsQuantity: this.starsQuantity,
       roomCategories: this.roomCategories,
+      rentedRooms: this.rentedRooms as RoomRent[],
       parkingLotsQuantity: this.parkingLotsQuantity,
     };
   }

@@ -21,6 +21,7 @@ export const HOTELS_MOCK: Hotel[] = [
     category: 'luxuoso',
     parkingLotsQuantity: 50,
     roomCategories: ['1_single_bed', '2_single_bed', '1_couple_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel1_sp',
@@ -35,13 +36,15 @@ export const HOTELS_MOCK: Hotel[] = [
       state: 'SP',
     },
     starsQuantity: 5,
-    description: 'Um hotel luxuoso com vista para a Avenida Paulista, e com a melhor refeição do país.',
+    description:
+      'Um hotel luxuoso com vista para a Avenida Paulista, e com a melhor refeição do país.',
     hasBreakfast: true,
     hasLunch: true,
     hasDinner: true,
     category: 'luxuoso',
     parkingLotsQuantity: 100,
     roomCategories: ['1_single_bed', '2_single_bed', '1_couple_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel2',
@@ -62,6 +65,7 @@ export const HOTELS_MOCK: Hotel[] = [
     hasDinner: false,
     category: 'econômico',
     roomCategories: ['2_single_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel2_car',
@@ -82,6 +86,7 @@ export const HOTELS_MOCK: Hotel[] = [
     hasDinner: true,
     category: 'luxuoso',
     roomCategories: ['1_single_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel3',
@@ -102,6 +107,7 @@ export const HOTELS_MOCK: Hotel[] = [
     hasDinner: false,
     category: 'barato',
     roomCategories: ['1_single_bed', '1_couple_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel3_sal',
@@ -122,6 +128,7 @@ export const HOTELS_MOCK: Hotel[] = [
     hasDinner: false,
     category: 'barato',
     roomCategories: ['1_single_bed', '2_single_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel4',
@@ -144,6 +151,7 @@ export const HOTELS_MOCK: Hotel[] = [
     category: 'luxuoso',
     parkingLotsQuantity: 30,
     roomCategories: ['1_couple_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel5',
@@ -166,6 +174,7 @@ export const HOTELS_MOCK: Hotel[] = [
     hasDinner: true,
     category: 'econômico',
     roomCategories: ['2_single_bed'],
+    rentedRooms: [],
   },
   {
     id: 'hotel6',
@@ -187,5 +196,6 @@ export const HOTELS_MOCK: Hotel[] = [
     category: 'luxuoso',
     parkingLotsQuantity: 20,
     roomCategories: ['1_single_bed', '1_couple_bed'],
+    rentedRooms: [],
   },
 ];

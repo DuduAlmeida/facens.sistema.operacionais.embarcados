@@ -1,3 +1,4 @@
+import { RoomRent } from '../roomRent/checkin.interface';
 import { Hotel, HotelResponse } from './hotel.interface';
 import { validateHotel } from './validations';
 
@@ -16,6 +17,7 @@ export class UpdateHotelPayloadRequest extends HotelResponse {
       hasBreakfast: this.hasBreakfast,
       starsQuantity: this.starsQuantity,
       roomCategories: this.roomCategories,
+      rentedRooms: [] as RoomRent[],
       parkingLotsQuantity: this.parkingLotsQuantity,
     };
   }

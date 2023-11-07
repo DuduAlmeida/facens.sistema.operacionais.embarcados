@@ -1,0 +1,607 @@
+{
+  "openapi": "3.0.0",
+  "paths": {
+    "/": {
+      "get": {
+        "operationId": "AppController_getHello",
+        "parameters": [],
+        "responses": {
+          "200": {
+            "description": ""
+          }
+        }
+      }
+    },
+    "/hotels/checkin": {
+      "post": {
+        "operationId": "HotelsController_checkinHotel",
+        "summary": "Faz o checkin em um quarto do hotel",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateRoomRentPayload"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The hotel room has been made checkin",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpRoomRentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hotels/checkout": {
+      "post": {
+        "operationId": "HotelsController_checkoutHotel",
+        "summary": "Faz o checkin em um quarto do hotel",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateRoomRentResponse"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The hotel room has been successfully rented",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpRoomRentResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hotels": {
+      "post": {
+        "operationId": "HotelsController_createHotel",
+        "summary": "Adiciona um no hotel na aplicação",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreateHotelPayloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The hotel has been successfully created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpHotelResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "HotelsController_getAllHotels",
+        "summary": "Lista todos os hotéis",
+        "parameters": [
+          {
+            "name": "name",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "category",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "enum": ["barato", "econômico", "luxuoso"],
+              "type": "string"
+            }
+          },
+          {
+            "name": "roomCategories",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The hotel has been successfully found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpHotelListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/hotels/{id}": {
+      "get": {
+        "operationId": "HotelsController_getHotelById",
+        "summary": "Retorna as informações do hotel por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Hotel ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The hotel has been successfully found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpHotelResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hotel not found"
+          }
+        }
+      },
+      "patch": {
+        "operationId": "HotelsController_updateHotelById",
+        "summary": "Atualiza um hotel por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Hotel ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateHotelPayloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "The hotel has been successfully updated",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpHotelResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hotel not found"
+          }
+        }
+      },
+      "delete": {
+        "operationId": "HotelsController_deleteHotelById",
+        "summary": "Remove um hotel por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Hotel ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The hotel has been successfully deleted",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpHotelResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Hotel not found"
+          }
+        }
+      }
+    }
+  },
+  "info": {
+    "title": "WebApp Hotéis",
+    "description": "API criada para a matéria de programação distribuída",
+    "version": "1.0",
+    "contact": {}
+  },
+  "tags": [
+    {
+      "name": "hotels",
+      "description": ""
+    }
+  ],
+  "servers": [],
+  "components": {
+    "schemas": {
+      "CreateRoomRentPayload": {
+        "type": "object",
+        "properties": {
+          "hotelId": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "checkinTime": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": ["hotelId", "category", "cpf", "name", "checkinTime"]
+      },
+      "RoomRentResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "hotelId": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "category": {
+            "type": "string"
+          },
+          "checkinTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "checkoutTime": {
+            "format": "date-time",
+            "type": "string"
+          }
+        },
+        "required": [
+          "id",
+          "hotelId",
+          "cpf",
+          "name",
+          "category",
+          "checkinTime",
+          "checkoutTime"
+        ]
+      },
+      "ErrorStructResponse": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          }
+        },
+        "required": ["code", "message"]
+      },
+      "HttpRoomRentResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/RoomRentResponse"
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "$ref": "#/components/schemas/ErrorStructResponse"
+          }
+        },
+        "required": ["data", "message", "error"]
+      },
+      "UpdateRoomRentResponse": {
+        "type": "object",
+        "properties": {
+          "checkoutTime": {
+            "format": "date-time",
+            "type": "string"
+          },
+          "id": {
+            "type": "string"
+          },
+          "hotelId": {
+            "type": "string"
+          }
+        },
+        "required": ["checkoutTime", "id", "hotelId"]
+      },
+      "AddressResponse": {
+        "type": "object",
+        "properties": {
+          "city": {
+            "type": "string"
+          },
+          "street": {
+            "type": "string"
+          },
+          "zipNumber": {
+            "type": "string"
+          },
+          "number": {
+            "type": "number"
+          },
+          "neighborhood": {
+            "type": "string"
+          },
+          "country": {
+            "type": "string"
+          },
+          "state": {
+            "type": "string"
+          },
+          "complement": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "city",
+          "street",
+          "zipNumber",
+          "number",
+          "neighborhood",
+          "country",
+          "state",
+          "complement"
+        ]
+      },
+      "CreateHotelPayloadRequest": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressResponse"
+          },
+          "starsQuantity": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "hasBreakfast": {
+            "type": "boolean"
+          },
+          "hasLunch": {
+            "type": "boolean"
+          },
+          "hasDinner": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "string"
+          },
+          "parkingLotsQuantity": {
+            "type": "number"
+          },
+          "roomCategories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "rentedRooms": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "name",
+          "address",
+          "starsQuantity",
+          "description",
+          "hasBreakfast",
+          "hasLunch",
+          "hasDinner",
+          "category",
+          "parkingLotsQuantity",
+          "roomCategories",
+          "rentedRooms"
+        ]
+      },
+      "HotelResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressResponse"
+          },
+          "starsQuantity": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "hasBreakfast": {
+            "type": "boolean"
+          },
+          "hasLunch": {
+            "type": "boolean"
+          },
+          "hasDinner": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "string"
+          },
+          "parkingLotsQuantity": {
+            "type": "number"
+          },
+          "roomCategories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "address",
+          "starsQuantity",
+          "description",
+          "hasBreakfast",
+          "hasLunch",
+          "hasDinner",
+          "category",
+          "parkingLotsQuantity",
+          "roomCategories"
+        ]
+      },
+      "HttpHotelResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/HotelResponse"
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "$ref": "#/components/schemas/ErrorStructResponse"
+          }
+        },
+        "required": ["data", "message", "error"]
+      },
+      "HttpHotelListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "$ref": "#/components/schemas/ErrorStructResponse"
+          }
+        },
+        "required": ["data", "message", "error"]
+      },
+      "UpdateHotelPayloadRequest": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/AddressResponse"
+          },
+          "starsQuantity": {
+            "type": "number"
+          },
+          "description": {
+            "type": "string"
+          },
+          "hasBreakfast": {
+            "type": "boolean"
+          },
+          "hasLunch": {
+            "type": "boolean"
+          },
+          "hasDinner": {
+            "type": "boolean"
+          },
+          "category": {
+            "type": "string"
+          },
+          "parkingLotsQuantity": {
+            "type": "number"
+          },
+          "roomCategories": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        },
+        "required": [
+          "id",
+          "name",
+          "address",
+          "starsQuantity",
+          "description",
+          "hasBreakfast",
+          "hasLunch",
+          "hasDinner",
+          "category",
+          "parkingLotsQuantity",
+          "roomCategories"
+        ]
+      }
+    }
+  }
+}
