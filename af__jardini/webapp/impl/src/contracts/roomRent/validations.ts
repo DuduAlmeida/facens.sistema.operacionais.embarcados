@@ -1,21 +1,11 @@
 import { RoomRent } from './checkin.interface';
 
-export function menorQueCincoMinutosAntes(data: Date): boolean {
-  // Obtém a data atual
-  const agora = new Date();
+export function lowerThanNow(data: Date): boolean {
+  const now = new Date();
 
-  // Obtém a diferença em milissegundos entre a data fornecida e o horário atual
-  const diferencaEmMilissegundos: any = agora.getTime() - data.getTime();
+  const diferencaEmMilissegundos: any = now.getTime() - data.getTime();
 
-  // Converte a diferença em minutos
-  const diferencaEmMinutos = diferencaEmMilissegundos / 1000 / 60;
-
-  // Verifica se a diferença é menor que 5 minutos
-  if (diferencaEmMinutos < 5) {
-    return true;
-  } else {
-    return false;
-  }
+  return diferencaEmMilissegundos < 0;
 }
 
 export function validateRoomRent(
@@ -67,7 +57,7 @@ export function validateRoomRent(
   }
 
   const isCheckinInvalid =
-    !payload.checkinTime && menorQueCincoMinutosAntes(payload.checkinTime);
+    !payload.checkinTime && lowerThanNow(payload.checkinTime);
   if (isCheckinInvalid) {
     return {
       hasError: true,
@@ -78,7 +68,7 @@ export function validateRoomRent(
   const isCheckoutInvalid =
     isValidatingCheckout &&
     !payload.checkoutTime &&
-    menorQueCincoMinutosAntes(payload.checkoutTime);
+    lowerThanNow(payload.checkoutTime);
   if (isCheckoutInvalid) {
     return {
       hasError: true,

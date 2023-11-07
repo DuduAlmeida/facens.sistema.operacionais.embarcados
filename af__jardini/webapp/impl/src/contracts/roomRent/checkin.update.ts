@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { menorQueCincoMinutosAntes } from './validations';
+import { lowerThanNow } from './validations';
 
 export interface UpdateRoomRent {
   id: string;
@@ -42,7 +42,7 @@ export class UpdateRoomRentResponse implements UpdateRoomRent {
     }
 
     const isCheckoutInvalid =
-      !this.checkoutTime && menorQueCincoMinutosAntes(this.checkoutTime);
+      !this.checkoutTime && lowerThanNow(this.checkoutTime);
     if (isCheckoutInvalid) {
       return {
         hasError: true,
