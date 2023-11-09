@@ -1,8 +1,11 @@
 #include <stdio.h>
 int main() {
-int result;
-int a;
-int b;
-a = 3  + 2  ;
-result = 2 * (a * 3  )  ;
+let a;
+let b;
+let c;
+a = 5  ;
+b = 3.5  ;
+c = "12"  ;
+let result;
+result = a  + b  ;
 }
