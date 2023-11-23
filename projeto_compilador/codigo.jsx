@@ -5,3 +5,12 @@ let c;
 a = 5  ;
 b = 3.5  ;
 c = "12"  ;
+function
+ teste
+(
+)
+{
+return 
+}
+let result;
+result = teste  ;
