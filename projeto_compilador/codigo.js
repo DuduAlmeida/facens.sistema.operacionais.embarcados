@@ -6,8 +6,8 @@ a = 5;
 b = 3.5;
 c = "12";
 
-function teste(a, b) {
-  return a + b;
+function teste(ab = 5, ba = c) {
+  return ab + ba;
 }
 
 let result;
