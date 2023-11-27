@@ -9,4 +9,4 @@ function teste(ab = 5, ba = c) {
   return;
 }
 let result;
-result = teste;
+result = teste(a, b);
