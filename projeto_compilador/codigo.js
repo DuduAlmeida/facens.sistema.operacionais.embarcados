@@ -10,6 +10,10 @@ function teste(ab = 5, ba = c) {
   return ab + ba;
 }
 
+let result;
+
+result = teste(a, b);
+
 class Jurema {
   constructor(f, e) {
     this.f = f;
@@ -18,7 +22,3 @@ class Jurema {
 
   sendNumber() {}
 }
-
-let result;
-
-result = teste(a, b);
