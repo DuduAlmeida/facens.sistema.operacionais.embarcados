@@ -1,0 +1,1 @@
+type FlightType = "IDA" | "IDA E VOLTA"

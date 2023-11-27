@@ -1,0 +1,658 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "flightapp",
+        "version": "1.0.0",
+        "description": "A simple API for flight ticket booking"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3000/flightapp"
+        }
+    ],
+    "paths": {
+        "/register": {
+            "post": {
+                "summary": "Cadastro de usuário",
+                "description": "Essa rota será responsável pela criação de usuários",
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/User"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuário Criado"
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Não foram informados os campos necessários."
+                                    },
+                                    "error2": {
+                                        "summary": "Um usuário com esse email já existe."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "Autenticação de usuário",
+                "description": "Essa rota será responsável pela autenticação de usuários",
+                "tags": [
+                    "User"
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string"
+                                    },
+                                    "password": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "properties": {
+                                        "id": {
+                                            "type": "integer"
+                                        },
+                                        "username": {
+                                            "type": "string"
+                                        },
+                                        "email": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Senha inválida"
+                                    },
+                                    "error2": {
+                                        "summary": "Não foram encontrados usuários com esse e-mail."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/places": {
+            "get": {
+                "summary": "Busca de lugares",
+                "description": "Essa rota será responsável por mostrar os pontos de embarque e destino",
+                "tags": [
+                    "Place"
+                ],
+                "parameters": [
+                    {
+                        "name": "user-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Place"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Não foram encontrados pontos de embarque/destinos."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/flights": {
+            "get": {
+                "summary": "Busca de voos",
+                "description": "Essa rota será responsável por mostrar os voos",
+                "tags": [
+                    "Flight"
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "outboundFlights": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Flight"
+                                            }
+                                        },
+                                        "returnFlights": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Flight"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Não foram econtrados voos."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/flights/locations": {
+            "post": {
+                "summary": "Busca de voos",
+                "description": "Essa rota será responsável por mostrar os voos por local de embarque e destino",
+                "tags": [
+                    "Flight"
+                ],
+                "parameters": [
+                    {
+                        "name": "user-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "properties": {
+                                    "boardingId": {
+                                        "type": "integer"
+                                    },
+                                    "destinationId": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "flights": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Flight"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Não foram informados os campos necessários."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/seats/flights/:flightId": {
+            "get": {
+                "summary": "Busca de assentos",
+                "description": "Essa rota será responsável por mostrar os assentos por voo",
+                "tags": [
+                    "Seat"
+                ],
+                "parameters": [
+                    {
+                        "name": "user-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "flightId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Id do voo."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "seats": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Seat"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Não foram econtrados assentos nesse voo."
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tickets/flight/:flightId": {
+            "get": {
+                "summary": "Busca de passagens",
+                "description": "Essa rota será responsável por mostrar as passagens por voo",
+                "tags": [
+                    "Ticket"
+                ],
+                "parameters": [
+                    {
+                        "name": "user-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "flightId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Id do voo."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "availableTickets": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ticket"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Não há passagens disponíveis para esse voo"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tickets/user/:userId": {
+            "get": {
+                "summary": "Busca de passagens",
+                "description": "Essa rota será responsável por mostrar as passagens por voo",
+                "tags": [
+                    "Ticket"
+                ],
+                "parameters": [
+                    {
+                        "name": "user-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "userId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Id do usuário."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bookedTickets": {
+                                            "type": "array",
+                                            "items": {
+                                                "$ref": "#/components/schemas/Ticket"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tickets/book/:ticketId": {
+            "put": {
+                "summary": "Reserva de passagens",
+                "description": "Essa rota será responsável por reservar as passagens",
+                "tags": [
+                    "Ticket"
+                ],
+                "parameters": [
+                    {
+                        "name": "user-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ticketId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Id do ticket."
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "aplication/json": {
+                            "schema": {
+                                "properties": {
+                                    "seatId": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "bookedTicket": {
+                                            "$ref": "#/components/schemas/Ticket"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Esta passagem não existe"
+                                    },
+                                    "error2": {
+                                        "summary": "Esta passagem já está reservada"
+                                    },
+                                    "error3": {
+                                        "summary": "Erro ao reservar passagem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/tickets/cancel/:ticketId": {
+            "put": {
+                "summary": "Cancelamento de passagens",
+                "description": "Essa rota será responsável por cancelar as passagens",
+                "tags": [
+                    "Ticket"
+                ],
+                "parameters": [
+                    {
+                        "name": "user-id",
+                        "in": "header",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    {
+                        "name": "ticketId",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "description": "Id do ticket."
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "aplication/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "properties": {
+                                        "canceledTicket": {
+                                            "$ref": "#/components/schemas/Ticket"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Bad Request",
+                        "content": {
+                            "aplication/json": {
+                                "examples": {
+                                    "error1": {
+                                        "summary": "Esta passagem não existe"
+                                    },
+                                    "error2": {
+                                        "summary": "Esta passagem já está cancelada"
+                                    },
+                                    "error3": {
+                                        "summary": "Erro ao cancelar passagem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "User": {
+                "type": "object",
+                "properties": {
+                    "username": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Flight": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "type": {
+                        "type": "string"
+                    },
+                    "boarding_location_id": {
+                        "type": "integer"
+                    },
+                    "destination_id": {
+                        "type": "integer"
+                    },
+                    "boarding_location": {
+                        "type": "string"
+                    },
+                    "destination_location": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Place": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "name": {
+                        "type": "string"
+                    }
+                }
+            },
+            "Seat": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "code": {
+                        "type": "string"
+                    },
+                    "ticket_id": {
+                        "type": "integer",
+                        "description": "Pode ser null no caso de não estar reservado a nenhuma passagem"
+                    },
+                    "flight_id": {
+                        "type": "integer"
+                    }
+                }
+            },
+            "Ticket": {
+                "type": "object",
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "booked": {
+                        "type": "integer",
+                        "description": "Deveria ser booleano, mas o sqlite traz booleanos como 0 e 1"
+                    },
+                    "flight_id": {
+                        "type": "integer"
+                    },
+                    "booked_by": {
+                        "type": "integer"
+                    }
+                }
+            }
+        }
+    }
+}
