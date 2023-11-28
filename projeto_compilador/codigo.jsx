@@ -10,3 +10,6 @@ function teste(ab = 5, ba = c) {
 }
 let result;
 result = teste(a, b);
+class Jurema {
+  constructor(f, e) {}
+}

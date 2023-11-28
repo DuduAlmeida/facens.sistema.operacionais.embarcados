@@ -15,10 +15,5 @@ let result;
 result = teste(a, b);
 
 class Jurema {
-  constructor(f, e) {
-    this.f = f;
-    this.e = e;
-  }
-
-  sendNumber() {}
+  constructor(f, e) {}
 }
