@@ -15,5 +15,5 @@ let result;
 result = teste(a, b);
 
 class Jurema {
-  constructor(f, e) {}
+  constructor(f = 3, e = false) {}
 }
