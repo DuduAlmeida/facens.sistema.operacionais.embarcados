@@ -19,10 +19,10 @@ VIRGULA -> , C_PARAMS ou Vazio
 
 # If
 
-IF -> <keyword if> ( IF_CONDITION ) IF_CONTENT ou Vazio
+IF -> <keyword if> ( ATTR_STATEMENT ) IF_CONTENT ou Vazio
 IF_CONTENT -> { INSTRUCTION } <ELSE ou ELSEIF>
 ELSE -> <keywoed else> {} Ou Vazio
 ELSEIF -> <keywoed else> IF Ou Vazio
 
-IF_CONDITION -> <id ou string ou int ou float ou boolean> <IF_CONDITION_CONTINUES>
-IF_CONDITION_CONTINUES -> <OP se for +-\*/<> será 1 vez, caso contrário são duas instâncias> <IF_CONDITION>
+ATTR_STATEMENT -> <id ou string ou int ou float ou boolean> <ATTR_STATEMENT_CONTINUES>
+ATTR_STATEMENT_CONTINUES -> <OP se for +-\*/<> será 1 vez, caso contrário são duas instâncias> <ATTR_STATEMENT>
