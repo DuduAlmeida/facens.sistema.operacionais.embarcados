@@ -6,6 +6,11 @@ a = 5;
 b = 3.5;
 c = "12";
 
+if (a) {
+} else if (b) {
+} else {
+}
+
 function teste(ab = 5, ba = c) {
   return ab + ba;
 }
