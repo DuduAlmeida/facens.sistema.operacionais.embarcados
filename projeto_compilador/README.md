@@ -1,5 +1,11 @@
 # facens.compiladores
 
+## Autores
+
+- Eduardo de Oliveira Almeida 190963;
+- Antônio Luis Canno de Araujo 190929;
+- Lucas de Abreu Furtado Garcia 190581.
+
 ## Criar Função
 
 S -> id B

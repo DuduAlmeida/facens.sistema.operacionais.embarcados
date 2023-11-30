@@ -7,8 +7,7 @@ b = 3.5;
 c = "12";
 function teste(ab = 5, ba = c) {
   ab = ba;
-  return;
-  1;
+  return 1;
 }
 let result;
 result = teste(a, b);
