@@ -4,7 +4,7 @@ let c;
 
 a = 5;
 b = 3.5;
-c = "12";
+c = 3 * "12";
 
 function teste(ab = 5, ba = c) {
   ab = ba;
