@@ -26,3 +26,11 @@ ELSEIF -> <keywoed else> IF Ou Vazio
 
 ATTR_STATEMENT -> <id ou string ou int ou float ou boolean> <ATTR_STATEMENT_CONTINUES>
 ATTR_STATEMENT_CONTINUES -> <OP se for +-\*/<> será 1 vez, caso contrário são duas instâncias> <ATTR_STATEMENT>
+
+# WHILE
+
+WHILE -> <keyword while> ( ATTR_STATEMENT ) { instructions }
+
+# CONSOLE
+
+CONSOLE -> <keyword consle> . log(ATTR_STATEMENT)

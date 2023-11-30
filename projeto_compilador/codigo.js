@@ -31,3 +31,11 @@ if (a + 1) {
 } else if (b) {
 } else {
 }
+
+while (1) {
+  a + 1;
+
+  while (a) {
+    console.log("as");
+  }
+}

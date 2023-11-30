@@ -16,3 +16,12 @@ C -> constructor ( C_PARAMS ) { <instructions> }
 C_PARAMS -> id C_OP VIRGULA
 C_OP -> = j ou Vazio
 VIRGULA -> , C_PARAMS ou Vazio
+
+S -> A P
+A -> id ou int
+P -> S+ ou Vazio
+
+S -> A P
+A -> id ou int
+P -> S O ou Vazio
+0 -> + ou \* ou /
