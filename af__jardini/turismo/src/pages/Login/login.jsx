@@ -23,7 +23,7 @@ const Login = () => {
     try {
       // Simulando uma solicitação à API
       // Substitua isso pela lógica real de chamada à API
-      const success = Math.random() > 0.5;
+      const success = Math.random() > 0.5; 
 
       if (success) {
         openModal('Autenticação bem-sucedida!', 'success');
