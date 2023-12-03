@@ -1,0 +1,397 @@
+{
+    "openapi": "3.1.0",
+    "info": {
+        "version": "1.0.0",
+        "title": "Products",
+        "description": "Documentação da API de eventos"
+    },
+    "servers": [{
+        "url": "http://localhost:3001",
+        "description": "API local"
+    },{
+        "url": "https://api-eventos-allexfelicio.vercel.app",
+        "description": "API de produção"
+    }],
+    "apis": ["src/**/*.js"],
+    "tags": [
+        {
+            "name": "Eventos"
+        },
+        {
+            "name": "Lugares"
+        },
+        {
+            "name": "Ingressos"
+        }
+    ],
+    "paths": {
+        "/events": {
+            "get": {
+                "tags": ["Eventos"],
+                "summary": "Listar todos os eventos",
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Event"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao buscar os eventos"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Eventos"],
+                "summary": "Adicionar um novo evento",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Event"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Evento criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Event"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Falha ao criar o evento"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Eventos"],
+                "summary": "Atualizar um evento existente",
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "Informações do evento a ser atualizado",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Event"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Evento atualizado com sucesso"
+                    },
+                    "400": {
+                        "description": "Falha ao atualizar o evento"
+                    },
+                    "404": {
+                        "description": "Evento não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Eventos"],
+                "summary": "Deletar um evento",
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "ID do evento a ser deletado",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Event"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Evento deletado com sucesso"
+                    },
+                    "404": {
+                        "description": "Evento não encontrado"
+                    }
+                }
+            }
+        },
+        "/places": {
+            "get": {
+                "tags": ["Lugares"],
+                "summary": "Listar todos os lugares",
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Place"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao buscar os lugares"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Lugares"],
+                "summary": "Adicionar um novo lugar",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Place"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Lugar criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Place"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Falha ao criar o lugar"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Lugares"],
+                "summary": "Atualizar um lugar existente",
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "Informações do lugar a ser atualizado",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Place"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Lugar atualizado com sucesso"
+                    },
+                    "400": {
+                        "description": "Falha ao atualizar o lugar"
+                    },
+                    "404": {
+                        "description": "Lugar não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Lugares"],
+                "summary": "Deletar um lugar",
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "ID do lugar a ser deletado",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Place"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Lugar deletado com sucesso"
+                    },
+                    "404": {
+                        "description": "Lugar não encontrado"
+                    }
+                }
+            }
+        },
+        "/tickets": {
+            "get": {
+                "tags": ["Ingressos"],
+                "summary": "Listar todos os ingressos",
+                "responses": {
+                    "200": {
+                        "description": "Operação bem-sucedida",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Ticket"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "500": {
+                        "description": "Erro ao buscar os ingressos"
+                    }
+                }
+            },
+            "post": {
+                "tags": ["Ingressos"],
+                "summary": "Adicionar um novo ingresso",
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/Ticket"
+                            }
+                        }
+                    },
+                    "required": true
+                },
+                "responses": {
+                    "201": {
+                        "description": "Ingresso criado com sucesso",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Ticket"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "Falha ao criar o ingresso"
+                    }
+                }
+            },
+            "put": {
+                "tags": ["Ingressos"],
+                "summary": "Atualizar um ingresso existente",
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "Informações do ingresso a ser atualizado",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Ticket"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ingresso atualizado com sucesso"
+                    },
+                    "400": {
+                        "description": "Falha ao atualizar o ingresso"
+                    },
+                    "404": {
+                        "description": "Ingresso não encontrado"
+                    }
+                }
+            },
+            "delete": {
+                "tags": ["Ingressos"],
+                "summary": "Deletar um ingresso",
+                "parameters": [{
+                    "in": "body",
+                    "name": "body",
+                    "description": "ID do ingresso a ser deletado",
+                    "required": true,
+                    "schema": {
+                        "$ref": "#/components/schemas/Ticket"
+                    }
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Ingresso deletado com sucesso"
+                    },
+                    "404": {
+                        "description": "Ingresso não encontrado"
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Event": {
+                "type": "object",
+                "properties": {
+                    "name": {
+                        "type": "string",
+                        "description": "Nome do evento"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["Teatro", "Cinema", "Show"],
+                        "description": "Tipo de evento"
+                    },
+                    "date": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Data do evento"
+                    },
+                    "location": {
+                        "type": "string",
+                        "description": "Localização do evento"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Descrição do evento"
+                    }
+                },
+                "required": ["name", "type", "date", "location", "description"]
+            },
+            "Place": {
+                "type": "object",
+                "properties": {
+                    "eventId": {
+                        "type": "string",
+                        "description": "ID do evento relacionado"
+                    },
+                    "description": {
+                        "type": "string",
+                        "description": "Descrição do lugar"
+                    },
+                    "status": {
+                        "type": "string",
+                        "enum": ["Disponível", "Ocupado"],
+                        "description": "Status do lugar"
+                    }
+                },
+                "required": ["eventId", "description", "status"]
+            },
+            "Ticket": {
+                "type": "object",
+                "properties": {
+                    "eventId": {
+                        "type": "string",
+                        "description": "ID do evento relacionado"
+                    },
+                    "type": {
+                        "type": "string",
+                        "enum": ["VIP", "Comum"],
+                        "description": "Tipo de ingresso"
+                    },
+                    "price": {
+                        "type": "number",
+                        "description": "Preço do ingresso"
+                    },
+                    "quantityAvailable": {
+                        "type": "number",
+                        "description": "Quantidade de ingressos disponíveis"
+                    }
+                },
+                "required": ["eventId", "type", "price", "quantityAvailable"]
+            }
+        }
+    }
+}
