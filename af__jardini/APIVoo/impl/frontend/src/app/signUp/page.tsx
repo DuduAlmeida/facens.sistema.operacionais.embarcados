@@ -1,29 +1,29 @@
-"use client"
+"use client";
 
-import { api } from "@/libs/axios"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { FormEvent, useRef } from "react"
+import { api } from "@/libs/axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEvent, useRef } from "react";
 
 export default function SignUp() {
-  const router = useRouter()
+  const router = useRouter();
 
-  const emailRef = useRef<HTMLInputElement>(null)
-  const usernameRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
+  const emailRef = useRef<HTMLInputElement>(null);
+  const usernameRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(event: FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
 
     if (usernameRef.current && emailRef.current && passwordRef.current) {
-      const response = await api.post('/user', {
+      const response = await api.post("/user", {
         username: usernameRef.current.value,
         email: emailRef.current.value,
-        password: passwordRef.current.value
-      })
+        password: passwordRef.current.value,
+      });
 
       if (response.status === 201 && response.statusText === "Created") {
-        router.push('/signIn')
+        router.push("/signIn");
       }
     }
   }
@@ -62,9 +62,11 @@ export default function SignUp() {
         </button>
         <div className="flex items-center gap-4">
           <span>Ja possuí uma conta?</span>
-          <Link href="/signIn" className="text-blue-400 hover:underline">Entrar</Link>
+          <Link href="/signIn" className="text-blue-400 hover:underline">
+            Entrar
+          </Link>
         </div>
       </form>
     </main>
-  )
+  );
 }

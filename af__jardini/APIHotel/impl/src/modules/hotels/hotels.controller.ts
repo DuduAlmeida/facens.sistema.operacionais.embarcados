@@ -34,7 +34,7 @@ export class HotelsController {
   @ApiOperation({ summary: 'Faz o checkin em um quarto do hotel' })
   @ApiResponse({
     status: 201,
-    description: 'The hotel room has been made checkin',
+    description: 'The hotel has been successfully made checkin',
     type: HttpRoomRentResponse,
   })
   checkinHotel(@Body() payload: CreateRoomRentPayload): HttpRoomRentResponse {
@@ -53,7 +53,7 @@ export class HotelsController {
 
     return http_response.ResultOk(
       response.room,
-      'The hotel has been successfully made checkout',
+      'The hotel has been successfully made checkin',
     ) as HttpRoomRentResponse;
   }
 

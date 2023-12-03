@@ -1,35 +1,35 @@
-"use client"
+"use client";
 
-import { api } from "@/libs/axios"
-import Link from "next/link"
-import { useRouter } from "next/navigation"
-import { FormEvent, useRef } from "react"
+import { api } from "@/libs/axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { FormEvent, useRef } from "react";
 
 export default function Home() {
-  const router = useRouter()
-  const emailRef = useRef<HTMLInputElement>(null)
-  const passwordRef = useRef<HTMLInputElement>(null)
+  const router = useRouter();
+  const emailRef = useRef<HTMLInputElement>(null);
+  const passwordRef = useRef<HTMLInputElement>(null);
 
   async function handleSubmit(event: FormEvent) {
-    event.preventDefault()
+    event.preventDefault();
 
     if (emailRef.current && passwordRef.current) {
-      console.log("tried")
+      console.log("tried");
       const response = await api.post<{
         user: {
-          id: number,
-          username: string,
-          email: string
-        }
-      }>('/login', {
+          id: number;
+          username: string;
+          email: string;
+        };
+      }>("/login", {
         email: emailRef.current.value,
-        password: passwordRef.current.value
-      })
+        password: passwordRef.current.value,
+      });
 
       if (response) {
-        api.defaults.headers.common['user-id'] = response.data.user.id
-      
-        router.push('/')
+        api.defaults.headers.common["user-id"] = response.data.user.id;
+
+        router.push("/");
       }
     }
   }
@@ -62,9 +62,11 @@ export default function Home() {
         </button>
         <div className="flex items-center gap-4">
           <span>Não possuí conta?</span>
-          <Link href="/signUp" className="text-blue-400 hover:underline">Registrar</Link>
+          <Link href="/signUp" className="text-blue-400 hover:underline">
+            Registrar
+          </Link>
         </div>
       </form>
     </main>
-  )
+  );
 }
