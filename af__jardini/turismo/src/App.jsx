@@ -14,8 +14,8 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path="/" Component={Header}>
       <Route index Component={HomePage} />
-      <Route path="/compras" Component={MinePage} />
       <Route path="/login" Component={Login} />
+      <Route path="/compras" Component={MinePage} />
     </Route>
   )
 );

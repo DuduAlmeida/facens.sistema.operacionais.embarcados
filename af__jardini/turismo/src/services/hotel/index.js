@@ -1,4 +1,4 @@
-const url_api = "";
+const url_api = "http://localhost:4321";
 
 /**
  * @param {{
@@ -9,10 +9,10 @@ const url_api = "";
 const getHotels = (payload) => {
   let endpointUrl = `${url_api}/hotels?roomCategories=${
     payload?.roomCategories?.length > 0 ? payload?.roomCategories : ""
-  }&category=${payload?.category || ""}`;
+  }&category=${payload?.category || ""}&cpf=${payload?.cpf || ""}`;
 
   if (payload)
-    fetch(endpointUrl, {
+    return fetch(endpointUrl, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
@@ -22,6 +22,8 @@ const getHotels = (payload) => {
       .then((response) => response.json())
       .then((data) => data)
       .catch((error) => console.error(error));
+
+  return async () => {};
 };
 
 export default {

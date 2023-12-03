@@ -61,7 +61,7 @@ export class HotelsService {
     return { room, errorMessage: '' };
   }
 
-  findAll({ category, roomCategories = [], name }: FindAllProps): Hotel[] {
+  findAll({ category, roomCategories = [], name, cpf }: FindAllProps): Hotel[] {
     let filteredHotels: Hotel[] = [...this.hotels];
 
     if (!!name) {
@@ -76,6 +76,21 @@ export class HotelsService {
       filteredHotels = filteredHotels.filter(
         (hotel) => hotel.category === category,
       );
+    }
+
+    if (!!cpf) {
+      console.log('Entrou no filtro de hotel cpf');
+      const getByCpf = (rentedRoom) => rentedRoom?.cpf === cpf;
+
+      filteredHotels = filteredHotels.filter((hotel) => {
+        return hotel.rentedRooms.find(getByCpf);
+      });
+
+      filteredHotels = filteredHotels.map((hotel) => {
+        hotel.rentedRooms = hotel.rentedRooms.filter(getByCpf);
+
+        return hotel;
+      });
     }
 
     if (

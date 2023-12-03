@@ -1,5 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
+import services from "../../services";
+
 export const useHome = () => {
   const fetchedItems = useRef({ hotel: [], fly: [], event: [] });
   const [hasFetchedHotels, setHasFetchedHotels] = useState(false);
@@ -8,8 +10,8 @@ export const useHome = () => {
   const packages = useState({ isLoading: true, list: [] });
 
   const fetchHotels = () => {
-    fetch("http://localhost:4321/hotels")
-      .then((response) => response.json())
+    services.hotel
+      .getHotels({})
       .then((data) => {
         if (!!data?.data && Array.isArray(data?.data))
           fetchedItems.current.hotel = data?.data;

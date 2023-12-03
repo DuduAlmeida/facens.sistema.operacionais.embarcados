@@ -131,6 +131,7 @@ export class HotelsController {
     type: HttpHotelListResponse,
   })
   getAllHotels(
+    @Query('cpf') cpf?: string,
     @Query('name') name?: string,
     @Query('category') category?: HotelCategory,
     @Query('roomCategories') roomCategories?: RoomCategory[],
@@ -138,6 +139,7 @@ export class HotelsController {
     if (roomCategories) roomCategories = JSON.parse(roomCategories as any);
 
     const hotelList = this.hotelsService.findAll({
+      cpf,
       name,
       category,
       roomCategories,

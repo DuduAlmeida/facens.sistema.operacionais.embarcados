@@ -11,6 +11,7 @@ import {
 } from 'src/utils/http_response/interface';
 
 export type FindAllProps = {
+  cpf?: string;
   name?: string;
   category?: HotelCategory;
   roomCategories?: RoomCategory[];
