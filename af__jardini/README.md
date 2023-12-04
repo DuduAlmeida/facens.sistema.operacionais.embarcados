@@ -8,3 +8,18 @@
 - LUCAS DE ABREU FURTADO GARCIA - 190581 - CP406TIN3
 - DANIEL DE LIMA FERREIRA - 200010 - CP406TIN1
 - ENRICO VENTURINI COSTA - 210901 - CP406TIN1
+
+## Como começar?
+
+- Instale as dependêcias:
+  ```
+  npm run install-all
+  ```
+- Inicialize todos os projetos
+  ```
+  npm run start
+  ```
+  ou
+  ```
+  npm run all
+  ```
