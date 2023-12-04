@@ -4,6 +4,7 @@ const url_api = "http://localhost:4321";
  * @param {{
  *  roomCategories: string[],
  *  category: string,
+ *  cpf: string,
  * }} body
  */
 const getHotels = (payload) => {

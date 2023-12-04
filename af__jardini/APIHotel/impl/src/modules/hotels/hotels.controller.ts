@@ -110,6 +110,11 @@ export class HotelsController {
   @Get()
   @ApiOperation({ summary: 'Lista todos os hotéis' })
   @ApiQuery({
+    name: 'cpf',
+    type: String,
+    required: false,
+  })
+  @ApiQuery({
     name: 'name',
     type: String,
     required: false,

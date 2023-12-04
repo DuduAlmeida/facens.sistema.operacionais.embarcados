@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
+import { getPackageList } from "./utils";
 
 export const useHome = () => {
   const navigate = useNavigate();
@@ -53,15 +54,21 @@ export const useHome = () => {
   };
 
   const preparePackages = () => {
-    const {
-      fly: flyList,
-      event: eventList,
-      hotel: hotelList,
-    } = fetchedItems.current;
+    const package_list = getPackageList(fetchedItems.current);
 
-    //TODO: CREATE RECORD LIST BY LOCATION
+    setPackages({ isLoading: false, list: package_list });
+  };
 
-    console.log("prepare", flyList, eventList, hotelList);
+  const confirmPackage = async (packageSelected = {}) => {
+    const hasConfirmed = window.confirm(
+      `Você deseja reservar o pacote: ${packageSelected?.title}?`
+    );
+
+    if (hasConfirmed) {
+      const seats = await services.voo.getSeats();
+
+      console.log("seats", seats);
+    }
   };
 
   useEffect(() => {
@@ -97,6 +104,7 @@ export const useHome = () => {
   return {
     packages,
     fetchedItems,
+    confirmPackage,
     hasFetchedHotels,
   };
 };

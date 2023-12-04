@@ -1,8 +1,9 @@
 import { Card } from "antd";
 import { useHome } from "./hooks";
+import { getPackageHTMLDescription } from "./utils";
 
 const Home = () => {
-  const { packages } = useHome();
+  const { packages, confirmPackage } = useHome();
 
   return (
     <section style={{ padding: "5vw" }}>
@@ -12,13 +13,18 @@ const Home = () => {
         {packages.isLoading ? (
           <>CARREGANDO DADOS</>
         ) : packages?.list?.length > 0 ? (
-          packages?.list?.map((item) => (
+          packages?.list?.map((item, index) => (
             <Card
-              key={item.id}
+              key={`card_${index}`}
               title={item.title}
-              style={{ marginBottom: "25px" }}
+              style={{ marginBottom: "25px", cursor: "pointer" }}
+              onClick={() => confirmPackage(item)}
             >
-              <p>{item.description}</p>
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: getPackageHTMLDescription(item),
+                }}
+              />
             </Card>
           ))
         ) : (
