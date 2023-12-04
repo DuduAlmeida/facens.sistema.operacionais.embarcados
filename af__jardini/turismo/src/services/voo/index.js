@@ -10,6 +10,7 @@ const url_api = "http://localhost:3001";
  * }} body
  */
 const registerUser = (payload) => {
+  console.log(payload)
   fetch(`${url_api}/flightapp/user`, {
     method: "POST",
     headers: {
