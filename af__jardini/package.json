@@ -4,7 +4,7 @@
     "all": "concurrently --kill-others \"npm run hotel-api\" \"npm run voo-api\" \"npm run evento-api\" \"npm run turismo-front\"",
     "install-all": "concurrently --kill-others \"npm run install-hotel-api\" \"npm run install-voo-api\" \"npm run install-evento-api\" \"npm run install-turismo-front\"",
     "turismo-front": "cd turismo && npm run dev",
-    "evento-api": "cd APIEvento",
+    "evento-api": "cd APIEvento && npm run start",
     "hotel-api": "cd APIHotel/impl && npm run dev",
     "voo-api": "cd APIVoo/impl/api && npm run dev",
     "install-turismo-front": "cd turismo && npm i",

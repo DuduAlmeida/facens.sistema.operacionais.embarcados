@@ -1,13 +1,16 @@
 // components/Login.js
-import React, { useState } from 'react';
-import Modal from 'react-modal';
-import vooFunction from "../../services/voo/index"
+import { useState } from "react";
+import Modal from "react-modal";
+import { Link, useNavigate } from "react-router-dom";
+import vooFunction from "../../services/voo/index";
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const navigate = useNavigate();
+
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [modalIsOpen, setModalIsOpen] = useState(false);
-  const [modalContent, setModalContent] = useState({ message: '', type: '' });
+  const [modalContent, setModalContent] = useState({ message: "", type: "" });
 
   const openModal = (message, type) => {
     setModalContent({ message, type });
@@ -17,21 +20,24 @@ const Login = () => {
 
   const closeModal = () => {
     setModalIsOpen(false);
-    setModalContent({ message: '', type: '' });
+    setModalContent({ message: "", type: "" });
   };
 
   const authenticate = async () => {
     try {
-      const success = vooFunction.login({username, password}) ? true : false
+      const result = (await vooFunction.login({ email, password }))
+        ? true
+        : false;
 
-      if (success) {
-        openModal('Autenticação bem-sucedida!', 'success');
+      if (result?.hasError) {
+        throw new Error("Falha na autenticação. Verifique suas credenciais.");
       } else {
-        throw new Error('Falha na autenticação. Verifique suas credenciais.');
+        openModal("Autenticação bem-sucedida!", "success");
+        navigate("/");
       }
     } catch (error) {
-      openModal(error.message, 'error');
-      console.error('Erro de autenticação:', error);
+      openModal(error.message, "error");
+      console.error("Erro de autenticação:", error);
     }
   };
 
@@ -43,40 +49,56 @@ const Login = () => {
   return (
     <div
       style={{
-        textAlign: 'center',
-        marginTop: '50px',
-        backgroundColor: 'white',
-        padding: '20px',
-        borderRadius: '8px',
-        boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
+        textAlign: "center",
+        marginTop: "50px",
+        backgroundColor: "white",
+        padding: "20px",
+        borderRadius: "8px",
+        boxShadow: "0 0 10px rgba(0, 0, 0, 0.1)",
       }}
     >
-      <h2 style={{ color: '#646cff' }}>Login</h2>
+      <h2 style={{ color: "#646cff" }}>Login</h2>
       <form
         onSubmit={handleSubmit}
-        style={{ display: 'flex', flexDirection: 'column', width: '300px', margin: 'auto' }}
+        style={{
+          display: "flex",
+          flexDirection: "column",
+          width: "300px",
+          margin: "auto",
+        }}
       >
-        <label style={{ margin: '10px 0', color: '#646cff' }}>
-          Username:
+        <label style={{ margin: "10px 0", color: "#646cff" }}>
+          Email:
           <input
             type="text"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-            style={{ marginLeft: '10px' }}
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            style={{ marginLeft: "10px" }}
           />
         </label>
-        <label style={{ margin: '10px 0', color: '#646cff' }}>
+        <label style={{ margin: "10px 0", color: "#646cff" }}>
           Password:
           <input
             type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
-            style={{ marginLeft: '10px' }}
+            style={{ marginLeft: "10px" }}
           />
         </label>
-        <button type="submit" style={{ backgroundColor: '#646cff', color: 'white', cursor: 'pointer' }}>
+        <button
+          type="submit"
+          style={{
+            backgroundColor: "#646cff",
+            color: "white",
+            cursor: "pointer",
+          }}
+        >
           Login
         </button>
+
+        <Link to="/register" style={{ margin: "10px 0", color: "#646cff" }}>
+          Não tem uma conta? <br /> Clique aqui para criar uma!
+        </Link>
       </form>
 
       <Modal
@@ -84,25 +106,26 @@ const Login = () => {
         onRequestClose={closeModal}
         style={{
           content: {
-            top: '50%',
-            left: '50%',
-            right: 'auto',
-            bottom: 'auto',
-            marginRight: '-50%',
-            transform: 'translate(-50%, -50%)',
-            backgroundColor: modalContent.type === 'success' ? '#4CAF50' : '#F44336',
-            color: 'white',
-            fontFamily: 'Arial, sans-serif',
-            padding: '20px',
-            borderRadius: '8px',
-            border: 'none',
+            top: "50%",
+            left: "50%",
+            right: "auto",
+            bottom: "auto",
+            marginRight: "-50%",
+            transform: "translate(-50%, -50%)",
+            backgroundColor:
+              modalContent.type === "success" ? "#4CAF50" : "#F44336",
+            color: "white",
+            fontFamily: "Arial, sans-serif",
+            padding: "20px",
+            borderRadius: "8px",
+            border: "none",
           },
           overlay: {
-            backgroundColor: 'rgba(0, 0, 0, 0.5)',
+            backgroundColor: "rgba(0, 0, 0, 0.5)",
           },
         }}
       >
-        <p style={{ margin: '0', fontSize: '16px' }}>{modalContent.message}</p>
+        <p style={{ margin: "0", fontSize: "16px" }}>{modalContent.message}</p>
       </Modal>
     </div>
   );

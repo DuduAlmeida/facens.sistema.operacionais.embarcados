@@ -1,8 +1,11 @@
 import { useEffect, useRef, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 import services from "../../services";
 
 export const useHome = () => {
+  const navigate = useNavigate();
+
   const fetchedItems = useRef({ hotel: [], fly: [], event: [] });
   const [hasFetchedHotels, setHasFetchedHotels] = useState(false);
   const [hasFetchedFlies, setHasFetchedFlies] = useState(false);
@@ -27,8 +30,7 @@ export const useHome = () => {
     services.voo
       .getFlights({})
       .then((data) => {
-        if (!!data?.data && Array.isArray(data?.data))
-          fetchedItems.current.fly = data?.data;
+        if (!!data && Array.isArray(data)) fetchedItems.current.fly = data;
         setHasFetchedFlies(true);
       })
       .catch((error) => {
@@ -41,8 +43,7 @@ export const useHome = () => {
     services.evento
       .getEvent({})
       .then((data) => {
-        if (!!data?.data && Array.isArray(data?.data))
-          fetchedItems.current.event = data?.data;
+        if (!!data && Array.isArray(data)) fetchedItems.current.event = data;
         setHasFetchedEvents(true);
       })
       .catch((error) => {
@@ -64,9 +65,14 @@ export const useHome = () => {
   };
 
   useEffect(() => {
+    const hasLoggedIn = services.voo.getHasValidAuth();
+
+    if (!hasLoggedIn) return navigate && navigate("/login");
+
     fetchHotels();
     fetchFlies();
     fetchEvents();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
@@ -79,6 +85,7 @@ export const useHome = () => {
         !!fetchedItems.current.fly?.length &&
         !!fetchedItems.current.hotel?.length;
 
+      console.log("fetchedItems.current", fetchedItems.current, hasAllLists);
       if (hasAllLists) {
         preparePackages();
       } else {

@@ -1,7 +1,7 @@
-const url_api = "https://api-eventos-allexfelicio.vercel.app";
+const url_api = "http://localhost:3003";
 
 const getEvent = () => {
-  return fetch(`${url_api}/events}`, {
+  return fetch(`${url_api}/events`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

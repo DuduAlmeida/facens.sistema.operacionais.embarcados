@@ -2,6 +2,11 @@ import { USER_VOO_STORAGE } from "../../constants/storage";
 
 const url_api = "http://localhost:3001";
 
+const hasErrorByMessage = (message) =>
+  String(message || ``)
+    .toLocaleLowerCase()
+    .indexOf("error") >= 0;
+
 /**
  * @param {{
  *  email: string,
@@ -10,7 +15,6 @@ const url_api = "http://localhost:3001";
  * }} body
  */
 const registerUser = (payload) => {
-  console.log(payload);
   return fetch(`${url_api}/flightapp/user`, {
     method: "POST",
     headers: {
@@ -18,9 +22,15 @@ const registerUser = (payload) => {
     },
     body: JSON.stringify(payload),
   })
-    .then((response) => response.json())
-    .then((data) => data)
-    .catch((error) => console.error(error));
+    .then(async (response) => {
+      const json = await response.json();
+
+      return json;
+    })
+    .then((data) => {
+      return { data, hasError: hasErrorByMessage(data?.message) };
+    })
+    .catch((error) => ({ hasError: true, error }));
 };
 
 /**
@@ -59,6 +69,12 @@ const getUserStored = () => {
   return JSON.parse(userStringfied);
 };
 
+const getHasValidAuth = () => {
+  const user = getUserStored();
+
+  return !!user?.id;
+};
+
 /**
  * @param {{
  *  email: string,
@@ -75,7 +91,14 @@ const getFlights = () => {
     },
   })
     .then((response) => response.json())
-    .then((data) => data)
+    .then((data) => {
+      const list = [
+        data?.flights?.outboundFlights || [],
+        data?.flights?.returnFlights || [],
+      ].flat();
+
+      return list;
+    })
     .catch((error) => console.error(error));
 };
 
@@ -128,4 +151,5 @@ export default {
   getFlights,
   registerUser,
   reserveFlight,
+  getHasValidAuth,
 };
