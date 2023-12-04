@@ -17,7 +17,6 @@ const getHotels = (payload) => {
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({}),
     })
       .then((response) => response.json())
       .then((data) => data)

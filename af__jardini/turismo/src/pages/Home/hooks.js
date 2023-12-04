@@ -7,7 +7,7 @@ export const useHome = () => {
   const [hasFetchedHotels, setHasFetchedHotels] = useState(false);
   const [hasFetchedFlies, setHasFetchedFlies] = useState(false);
   const [hasFetchedEvents, setHasFetchedEvents] = useState(false);
-  const packages = useState({ isLoading: true, list: [] });
+  const [packages, setPackages] = useState({ isLoading: true, list: [] });
 
   const fetchHotels = () => {
     services.hotel
@@ -24,8 +24,8 @@ export const useHome = () => {
   };
 
   const fetchFlies = () => {
-    fetch("http://localhost:4321/hotels")
-      .then((response) => response.json())
+    services.voo
+      .getFlights({})
       .then((data) => {
         if (!!data?.data && Array.isArray(data?.data))
           fetchedItems.current.fly = data?.data;
@@ -38,8 +38,8 @@ export const useHome = () => {
   };
 
   const fetchEvents = () => {
-    fetch("http://localhost:4321/hotels")
-      .then((response) => response.json())
+    services.evento
+      .getEvent({})
       .then((data) => {
         if (!!data?.data && Array.isArray(data?.data))
           fetchedItems.current.event = data?.data;
@@ -49,6 +49,18 @@ export const useHome = () => {
         console.log(error); // Exibe qualquer erro ocorrido na requisição no console
         setHasFetchedEvents(true);
       });
+  };
+
+  const preparePackages = () => {
+    const {
+      fly: flyList,
+      event: eventList,
+      hotel: hotelList,
+    } = fetchedItems.current;
+
+    //TODO: CREATE RECORD LIST BY LOCATION
+
+    console.log("prepare", flyList, eventList, hotelList);
   };
 
   useEffect(() => {
@@ -62,7 +74,16 @@ export const useHome = () => {
       hasFetchedHotels && hasFetchedFlies && hasFetchedEvents;
 
     if (hadFetchedAllAPIS) {
-      fetchedItems.current.fly;
+      const hasAllLists =
+        !!fetchedItems.current.event?.length &&
+        !!fetchedItems.current.fly?.length &&
+        !!fetchedItems.current.hotel?.length;
+
+      if (hasAllLists) {
+        preparePackages();
+      } else {
+        setPackages({ isLoading: false, list: [] });
+      }
     }
   }, [hasFetchedHotels, hasFetchedFlies, hasFetchedEvents]);
 

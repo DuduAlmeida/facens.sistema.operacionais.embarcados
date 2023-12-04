@@ -10,8 +10,8 @@ const url_api = "http://localhost:3001";
  * }} body
  */
 const registerUser = (payload) => {
-  console.log(payload)
-  fetch(`${url_api}/flightapp/user`, {
+  console.log(payload);
+  return fetch(`${url_api}/flightapp/user`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -30,7 +30,7 @@ const registerUser = (payload) => {
  * }} body
  */
 const login = (payload) => {
-  fetch(`${url_api}/flightapp/login`, {
+  return fetch(`${url_api}/flightapp/login`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -65,15 +65,14 @@ const getUserStored = () => {
  *  password: string,
  * }} body
  */
-const getFlights = (payload) => {
+const getFlights = () => {
   const user = getUserStored();
-  fetch(`${url_api}/flightapp/flights`, {
+  return fetch(`${url_api}/flightapp/flights`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "user-id": user?.id,
     },
-    body: JSON.stringify(payload),
   })
     .then((response) => response.json())
     .then((data) => data)
@@ -87,13 +86,12 @@ const getFlights = (payload) => {
  */
 const getSeats = (payload) => {
   const user = getUserStored();
-  fetch(`${url_api}/flightapp/seats/flight/${payload?.ticketId}`, {
+  return fetch(`${url_api}/flightapp/seats/flight/${payload?.ticketId}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       "user-id": user?.id,
     },
-    body: JSON.stringify({}),
   })
     .then((response) => response.json())
     .then((data) => data)
@@ -108,7 +106,7 @@ const getSeats = (payload) => {
  */
 const reserveFlight = ({ ticket_id = -1, seat_id = -1 }) => {
   const user = getUserStored();
-  fetch(`${url_api}/flightapp/tickets/book/${user?.id}`, {
+  return fetch(`${url_api}/flightapp/tickets/book/${user?.id}`, {
     method: "PUT",
     headers: {
       "Content-Type": "application/json",
