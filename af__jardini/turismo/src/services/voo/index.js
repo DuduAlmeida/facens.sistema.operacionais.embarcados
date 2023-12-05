@@ -76,7 +76,9 @@ const getHasValidAuth = () => {
 const getUserID = () => {
   const user = getUserStored();
 
-  return String(user?.id);
+  console.log("user", user);
+
+  return String(user?.id || "");
 };
 
 /**

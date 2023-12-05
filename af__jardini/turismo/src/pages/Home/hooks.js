@@ -98,7 +98,6 @@ export const useHome = () => {
         !!fetchedItems.current.fly?.length &&
         !!fetchedItems.current.hotel?.length;
 
-      console.log("fetchedItems.current", fetchedItems.current, hasAllLists);
       if (hasAllLists) {
         preparePackages();
       } else {

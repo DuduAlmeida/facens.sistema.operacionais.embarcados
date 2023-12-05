@@ -65,6 +65,8 @@ export const getPackageList = ({
   const flyRecord = getFlyRecordByLocation(flyList);
   const eventRecord = getEventRecordByLocation(eventList);
   const hotelRecord = getHotelRecordByLocation(hotelList);
+
+  console.log("sp", flyRecord.SP, eventRecord.SP, hotelRecord.SP);
   const package_list = [];
 
   Object.entries(flyRecord).forEach(([locationKey, flyList]) => {

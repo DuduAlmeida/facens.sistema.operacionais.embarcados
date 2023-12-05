@@ -15,11 +15,20 @@
   ```
   npm run install-all
   ```
-- Inicialize todos os projetos
+- Inicialize cada projeto em um terminal diferente:
   ```
-  npm run start
+  npm run turismo-front
   ```
-  ou
   ```
-  npm run all
+  npm run evento-api
   ```
+  ```
+  npm run hotel-api
+  ```
+  ```
+  npm run voo-api
+  ```
+
+## Demonstrando o projeto visual:
+
+- https://youtu.be/6ZR63ape8qY
