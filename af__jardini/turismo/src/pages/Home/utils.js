@@ -84,7 +84,7 @@ export const getPackageList = ({
             hotel,
             event,
             fly: currentFly,
-            title: `${fly?.type} ${hotel?.address?.state} ${event?.name}`,
+            title: `${fly?.type} ${hotel?.address?.state} - ${event?.name} - ${hotel?.name}`,
           });
         });
       });

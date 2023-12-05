@@ -6,7 +6,7 @@ const url_api = "http://localhost:4321";
  * }} body
  */
 const getMinePackages = (payload) => {
-  let endpointUrl = `${url_api}/packages?cpf${payload?.cpf || ""}`;
+  let endpointUrl = `${url_api}/packages?cpf=${payload?.cpf || ""}`;
 
   if (payload)
     return fetch(endpointUrl, {

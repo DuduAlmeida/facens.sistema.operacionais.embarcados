@@ -70,9 +70,13 @@ const getUserStored = () => {
 };
 
 const getHasValidAuth = () => {
+  return !!getUserID();
+};
+
+const getUserID = () => {
   const user = getUserStored();
 
-  return !!user?.id;
+  return String(user?.id);
 };
 
 /**
@@ -148,6 +152,7 @@ const reserveFlight = ({ ticket_id = -1, seat_id = -1 }) => {
 export default {
   login,
   getSeats,
+  getUserID,
   getFlights,
   registerUser,
   reserveFlight,

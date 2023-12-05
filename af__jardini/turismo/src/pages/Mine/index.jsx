@@ -1,28 +1,35 @@
 import { Card } from "antd";
+import { useMine } from "./hooks";
+import { getPackageHTMLDescription } from "../Home/utils";
 
 const MineBoughts = () => {
-  const packageList = [
-    { id: 1, title: "Card 1", description: "Description for card 1" },
-    { id: 2, title: "Card 2", description: "Description for card 2" },
-    { id: 3, title: "Card 3", description: "Description for card 3" },
-  ];
-
-  console.log("HOME LOADED");
+  const { packages, cancelPackage } = useMine();
 
   return (
     <section style={{ padding: "5vw" }}>
-      <h1>Pacotes de Turismo</h1>
+      <h1>Meus Pacotes de Turismo reservados</h1>
 
       <div>
-        {packageList.map((item) => (
-          <Card
-            key={item.id}
-            title={item.title}
-            style={{ marginBottom: "25px" }}
-          >
-            <p>{item.description}</p>
-          </Card>
-        ))}
+        {packages.isLoading ? (
+          <>CARREGANDO DADOS</>
+        ) : packages?.list?.length > 0 ? (
+          packages?.list?.map((item, index) => (
+            <Card
+              key={`card_${index}`}
+              title={item.title}
+              style={{ marginBottom: "25px", cursor: "pointer" }}
+              onClick={() => cancelPackage(item)}
+            >
+              <div
+                dangerouslySetInnerHTML={{
+                  __html: getPackageHTMLDescription(item),
+                }}
+              />
+            </Card>
+          ))
+        ) : (
+          <>NENHUM PACOTE ENCONTRADO</>
+        )}
       </div>
     </section>
   );

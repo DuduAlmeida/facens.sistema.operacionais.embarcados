@@ -65,9 +65,15 @@ export const useHome = () => {
     );
 
     if (hasConfirmed) {
-      const seats = await services.voo.getSeats();
+      const userID = services.voo.getUserID();
 
-      console.log("seats", seats);
+      await services.pacote.reservePackage({
+        cpf: userID,
+        title: packageSelected?.title,
+        flightID: packageSelected?.fly?.id,
+        hotelID: packageSelected?.hotel?.id,
+        eventID: packageSelected?.event?._id,
+      });
     }
   };
 
@@ -106,5 +112,6 @@ export const useHome = () => {
     fetchedItems,
     confirmPackage,
     hasFetchedHotels,
+    hasValidPackages: !!packages.list?.length,
   };
 };
