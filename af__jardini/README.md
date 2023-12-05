@@ -13,6 +13,9 @@
 
 - Instale as dependêcias:
   ```
+  npm i
+  ```
+  ```
   npm run install-all
   ```
 - Inicialize cada projeto em um terminal diferente:

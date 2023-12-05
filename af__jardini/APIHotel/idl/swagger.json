@@ -29,7 +29,7 @@
         },
         "responses": {
           "201": {
-            "description": "The hotel room has been made checkin",
+            "description": "The hotel has been successfully made checkin",
             "content": {
               "application/json": {
                 "schema": {
@@ -102,6 +102,14 @@
         "operationId": "HotelsController_getAllHotels",
         "summary": "Lista todos os hotéis",
         "parameters": [
+          {
+            "name": "cpf",
+            "required": false,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
           {
             "name": "name",
             "required": false,
@@ -243,6 +251,93 @@
           },
           "404": {
             "description": "Hotel not found"
+          }
+        }
+      }
+    },
+    "/packages": {
+      "post": {
+        "operationId": "PackagesController_createPackage",
+        "summary": "Faz a contratação de um pacote turístico",
+        "parameters": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CreatePackagePayloadRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "The package has been successfully reserved",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpPackageResponse"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "operationId": "PackagesController_getAllPackages",
+        "summary": "Lista todos os pacotes reservados",
+        "parameters": [
+          {
+            "name": "cpf",
+            "required": true,
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The package has been successfully found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpPackageListResponse"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/packages/{id}": {
+      "delete": {
+        "operationId": "PackagesController_deletePackageById",
+        "summary": "Remove um package por ID",
+        "parameters": [
+          {
+            "name": "id",
+            "required": true,
+            "in": "path",
+            "description": "Package ID",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "The package has been successfully cancelled",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HttpPackageResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Package not found"
           }
         }
       }
@@ -601,6 +696,84 @@
           "parkingLotsQuantity",
           "roomCategories"
         ]
+      },
+      "CreatePackagePayloadRequest": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "flightID": {
+            "type": "string"
+          },
+          "eventID": {
+            "type": "string"
+          },
+          "hotelID": {
+            "type": "string"
+          }
+        },
+        "required": ["title", "cpf", "flightID", "eventID", "hotelID"]
+      },
+      "PackageResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "title": {
+            "type": "string"
+          },
+          "cpf": {
+            "type": "string"
+          },
+          "flightID": {
+            "type": "string"
+          },
+          "eventID": {
+            "type": "string"
+          },
+          "hotelID": {
+            "type": "string"
+          }
+        },
+        "required": ["id", "title", "cpf", "flightID", "eventID", "hotelID"]
+      },
+      "HttpPackageResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "$ref": "#/components/schemas/PackageResponse"
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "$ref": "#/components/schemas/ErrorStructResponse"
+          }
+        },
+        "required": ["data", "message", "error"]
+      },
+      "HttpPackageListResponse": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "message": {
+            "type": "string"
+          },
+          "error": {
+            "$ref": "#/components/schemas/ErrorStructResponse"
+          }
+        },
+        "required": ["data", "message", "error"]
       }
     }
   }
